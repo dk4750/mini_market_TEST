@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.AdminMapper">
+	<!-- 업체 페이징 -->
+	<select id="getCompanyTotalRow" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM mini_market_company
+		WHERE company_id LIKE CONCAT('%',#{searchWord},'%')
+	</select>
+	<!-- 멤버 페이징 -->
+	<select id="getMemberTotalRow" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM mini_market_member
+		WHERE member_id LIKE CONCAT('%',#{searchWord},'%')
+	</select>
+	<!-- 업체 상세보기 -->
+	<select id="selectCompanyListOne" parameterType="String" resultType="com.cafe24.dk4750.miniMarket.vo.Company">
+		SELECT
+			company_id as companyId,
+			company_sido as companySido,
+			company_sigungu as companySigungu,
+			company_bname as companyBname,
+			company_name as companyName,
+			company_ceo_name as companyCeoName,
+			company_email as companyEmail,
+			company_unique_no as companyUniqueNo,
+			company_phone as companyPhone,
+			company_date as companyDate
+		FROM mini_market_company
+		WHERE company_id = #{companyId}
+	</select>
+	<!-- 업체 리스트 -->
+	<select id="selectCompanyList" parameterType="map" resultType="com.cafe24.dk4750.miniMarket.vo.Company">
+		SELECT
+			company_id as companyId,
+			company_email as companyEmail,
+			company_date as companyDate
+		FROM mini_market_company
+		WHERE company_id LIKE CONCAT('%',#{searchWord},'%')
+		ORDER BY company_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	<!-- 일반회원 상세보기 -->
+	<select id="selectMemberListOne" parameterType="String" resultType="com.cafe24.dk4750.miniMarket.vo.Member">
+		SELECT
+			member_id as memberId,
+			member_sido as memberSido,
+			member_sigungu as memberSigungu,
+			member_bname as memberBname,
+			member_nickname as memberNickname,
+			member_email as memberEmail,
+			member_unique_no as memberUniqueNo,
+			member_phone as memberPhone,
+			member_date as memberDate
+		FROM mini_market_member
+		WHERE member_id = #{memberId}
+	</select>
+	<!-- 일반회원 리스트 -->
+	<select id="selectMemberList" parameterType="map" resultType="com.cafe24.dk4750.miniMarket.vo.Member">
+		SELECT
+			member_id as memberId,
+			member_email as memberEmail,
+			member_date as memberDate
+		FROM mini_market_member
+		WHERE member_id LIKE CONCAT('%',#{searchWord},'%')
+		ORDER BY member_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	<!-- 관리자 로그인 -->
+	<select id="selectLoginAdmin" resultType="com.cafe24.dk4750.miniMarket.vo.LoginAdmin" parameterType="com.cafe24.dk4750.miniMarket.vo.Admin">
+		SELECT
+			admin_id AS adminId,
+			admin_pw AS adminPw,
+			admin_name AS adminName
+		FROM mini_market_admin
+		WHERE admin_id = #{adminId}
+		AND admin_pw = PASSWORD(#{adminPw})
+	</select>
+</mapper>

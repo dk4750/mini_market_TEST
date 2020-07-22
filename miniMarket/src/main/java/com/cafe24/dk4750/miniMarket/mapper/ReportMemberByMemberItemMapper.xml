@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.ReportMemberByMemberItemMapper">
+	<!-- 신고 목록중에 가장 최근것의 신고확인 된거 가져오기 -->
+	<select id="selectMemberByMemberItemDesc" resultType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByMemberItem">
+		SELECT
+			rm.report_state AS reportState,
+			rm.report_date AS reportDate,
+			mi.member_unique_no AS memberUniqueNo,
+			mi.member_item_no AS memberItemNo
+		FROM mini_market_report_m_by_mitem AS rm
+		INNER JOIN mini_market_member_item AS mi
+		ON rm.member_item_no = mi.member_item_no
+		WHERE report_state = '신고확인'
+		ORDER BY report_no DESC
+		LIMIT 1
+	</select>
+	
+	<update id="updateMemberByMemberItemState" parameterType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByMemberItem">
+		UPDATE mini_market_report_m_by_mitem 
+		SET report_state = #{reportState}
+		WHERE report_no = #{reportNo}
+	</update>
+	<!-- totalRow -->
+	<select id="getTotalRow" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM mini_market_report_m_by_mitem
+		WHERE report_state LIKE CONCAT('%',#{reportState},'%')
+	</select>
+	<!-- 신고 totalList -->
+	<select id="selectReportMemberByMemberItemAll" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByMemberItemAndMemberItem">
+		SELECT
+			r.report_no AS reportNo,
+			r.report_title AS reportTitle,
+			r.report_content AS reportContent,
+			r.report_memo AS reportMemo,
+			r.member_id AS memberId,
+			r.member_item_no AS memberItemNo,
+			i.member_item_title AS memberItemTitle,
+			r.report_state AS reportState,
+			r.report_date AS reportDate
+		FROM mini_market_report_m_by_mitem r
+		INNER JOIN mini_market_member_item i
+		ON r.member_item_no = i.member_item_no
+		WHERE report_state LIKE CONCAT('%',#{reportState},'%')
+		ORDER BY r.report_state ASC, 
+				 report_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	<!-- 신고 상세페이지 -->
+	<select id="selectReportMemberByMemberItemOne" parameterType="int" resultType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByMemberItemAndMemberItem">
+		SELECT
+			r.report_no AS reportNo,
+			r.report_title AS reportTitle,
+			r.report_content AS reportContent,
+			r.report_memo AS reportMemo,
+			r.member_id AS memberId,
+			r.member_item_no AS memberItemNo,
+			i.member_item_title AS memberItemTitle,
+			r.report_state AS reportState,
+			r.report_date AS reportDate
+		FROM mini_market_report_m_by_mitem r
+		INNER JOIN mini_market_member_item i
+		ON r.member_item_no = i.member_item_no
+		WHERE report_no = #{reportNo}
+	</select>
+	<!-- 신고 하기 접수 -->
+	<insert id="insertReportMemberByMemberItem" parameterType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByMemberItem">
+		INSERT INTO mini_market_report_m_by_mitem(
+			report_title,
+			report_content,
+			report_memo,
+			member_id,
+			member_item_no,
+			report_date
+		) VALUES (
+			#{reportTitle},
+			#{reportContent},
+			#{reportMemo},
+			#{memberId},
+			#{memberItemNo},
+			now()
+		)
+	</insert>
+</mapper>

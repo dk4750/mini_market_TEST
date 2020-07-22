@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.QnaBoardMapper">
+	<!-- 검색어 총갯수 -->
+	<select id="totalQnaBoardBySearch" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM
+			mini_market_qna_board_member
+		WHERE
+			qna_board_member_title LIKE CONCAT('%',#{qnaBoardMemberTitle},'%')
+	</select>
+	<!-- 질문 수정 -->
+	<update id="updateQnaBoardMember" parameterType="com.cafe24.dk4750.miniMarket.vo.QnaBoardMember">
+		UPDATE 
+			mini_market_qna_board_member 
+		SET
+			qna_board_member_title = #{qnaBoardMemberTitle},
+			qna_board_member_content= #{qnaBoardMemberContent},
+			qna_board_member_date = NOW()
+		WHERE
+			qna_board_member_no = #{qnaBoardMemberNo};
+	</update>
+	<!-- 질문 삭제 -->
+	<update id="updateQnaBoardMemberByActive" parameterType="int">
+		UPDATE 
+			mini_market_qna_board_member 
+		SET
+			qna_board_member_active = '1'
+		WHERE
+			qna_board_member_no = #{qnaBoardMemberNo}
+	</update>
+	
+	<!-- 자주 묻는 질문 추가 -->
+	<insert id="insertQnaBoardMember" parameterType="com.cafe24.dk4750.miniMarket.vo.QnaBoardMember" >
+		INSERT INTO 
+			mini_market_qna_board_member(
+			member_unique_no,
+			qna_board_member_title,
+			qna_board_member_content,
+			qna_board_member_date )
+		VALUE(
+			#{memberUniqueNo},
+			#{qnaBoardMemberTitle},
+			#{qnaBoardMemberContent},
+			NOW())
+	</insert>
+	<select id="totalQnaBoard" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			mini_market_qna_board_member
+	</select>
+	<!-- 멤버 글 상세보기 -->
+	<select id="selectQnaBoardMemberOne" parameterType="int" resultType="com.cafe24.dk4750.miniMarket.vo.QnaBoardMember" >
+		SELECT
+			qna_board_member_no AS qnaBoardMemberNo,
+			q.member_unique_no AS memberUniqueNo,
+			m.member_nickname AS memberNickName,
+			qna_board_member_title AS qnaBoardMemberTitle,
+			qna_board_member_content AS qnaBoardMemberContent,
+			qna_board_member_date AS qnaBoardMemberDate	
+		FROM
+			mini_market_qna_board_member q
+		INNER join
+			mini_market_member m
+		on
+			q.member_unique_no = m.member_unique_no
+		WHERE 
+			qna_board_member_no = #{qnaBoardMemberNo}
+	</select>
+	<!-- 멤버 qna 기타 게시글 리스트 -->
+	<select id="selectQnaBoardMember" resultType="com.cafe24.dk4750.miniMarket.vo.QnaBoardMember" parameterType="java.util.Map">
+		SELECT
+			qna_board_member_no AS qnaBoardMemberNo,
+			q.member_unique_no AS memberUniqueNo,
+			m.member_nickname AS memberNickName,
+			qna_board_member_title AS qnaBoardMemberTitle,
+			qna_board_member_content AS qnaBoardMemberContent,
+			qna_board_member_date AS qnaBoardMemberDate,
+			qna_board_member_active AS qnaBoardMemberActive
+		FROM
+			mini_market_qna_board_member q
+		INNER join
+			mini_market_member m
+		on
+			q.member_unique_no = m.member_unique_no
+		WHERE
+			qna_board_member_title LIKE CONCAT('%',#{qnaBoardMemberTitle},'%')
+		ORDER BY 
+			 qna_board_member_active ASC , qna_board_member_no DESC
+		LIMIT 
+			#{beginRow} , #{rowPerPage} 	
+	</select>
+</mapper>

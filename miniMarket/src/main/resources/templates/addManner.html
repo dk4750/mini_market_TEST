@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>add manner</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+	let count = 0;
+	$(document).ready(function(){
+		$('#ma1').hide();
+		$('#ma2').hide();
+		$('#manner').click(function(){
+			$('#ma1').show();
+			$('#ma2').hide();
+			// 별점 1 클릭시
+			$('#img1').click(function(){
+				// check풀기
+				$('.pin').each(function(index, item){
+					item.checked = false;
+				});
+				// 체크하기
+				$('.pin1').each(function(index, item){
+					item.checked = true;
+				});
+				$("#img1").attr('src',"images/s.jpg");
+				$("#img2").attr('src',"images/es.jpg");
+				$("#img3").attr('src',"images/es.jpg");
+				$("#img4").attr('src',"images/es.jpg");
+				$("#img5").attr('src',"images/es.jpg");
+				count = 0.1;
+				console.log(count);
+			});
+			// 별점 2 클릭시
+			$('#img2').click(function(){
+				// check풀기
+				$('.pin').each(function(index, item){
+					item.checked = false;
+				});
+				// 체크하기
+				$('.pin1').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin2').each(function(index, item){
+					item.checked = true;
+				});
+				$("#img1").attr('src',"images/s.jpg");
+				$("#img2").attr('src',"images/s.jpg");
+				$("#img3").attr('src',"images/es.jpg");
+				$("#img4").attr('src',"images/es.jpg");
+				$("#img5").attr('src',"images/es.jpg");
+				count = 0.2;
+				console.log(count);
+			});
+			// 별점 3 클릭시
+			$('#img3').click(function(){
+				// check풀기
+				$('.pin').each(function(index, item){
+					item.checked = false;
+				});
+				// 체크하기
+				$('.pin1').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin2').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin3').each(function(index, item){
+					item.checked = true;
+				});
+				$("#img1").attr('src',"images/s.jpg");
+				$("#img2").attr('src',"images/s.jpg");
+				$("#img3").attr('src',"images/s.jpg");
+				$("#img4").attr('src',"images/es.jpg");
+				$("#img5").attr('src',"images/es.jpg");
+				count = 0.3;
+				console.log(count);
+			});
+			// 별점 4 클릭시
+			$('#img4').click(function(){
+				// check풀기
+				$('.pin').each(function(index, item){
+					item.checked = false;
+				});
+				// 체크하기
+				$('.pin1').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin2').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin3').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin4').each(function(index, item){
+					item.checked = true;
+				});
+				$("#img1").attr('src',"images/s.jpg");
+				$("#img2").attr('src',"images/s.jpg");
+				$("#img3").attr('src',"images/s.jpg");
+				$("#img4").attr('src',"images/s.jpg");
+				$("#img5").attr('src',"images/es.jpg");
+				count = 0.4;
+				console.log(count);
+			});
+			// 별점 5 클릭시
+			$('#img5').click(function(){
+				// check풀기
+				$('.pin').each(function(index, item){
+					item.checked = false;
+				});
+				// 체크하기
+				$('.pin1').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin2').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin3').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin4').each(function(index, item){
+					item.checked = true;
+				});
+				$('.pin5').each(function(index, item){
+					item.checked = true;
+				});
+				$("#img1").attr('src',"images/s.jpg");
+				$("#img2").attr('src',"images/s.jpg");
+				$("#img3").attr('src',"images/s.jpg");
+				$("#img4").attr('src',"images/s.jpg");
+				$("#img5").attr('src',"images/s.jpg");
+				count = 0.5;
+				console.log(count);
+			});
+		});
+		// 비매너 클릭시
+		$('#bmanner').click(function(){
+			$('#ma2').show();
+			$('#ma1').hide();
+			count= -1.0;
+			console.log(count);
+		});
+		
+		// 평가제출
+		$('#goodbtn').click(function() {
+			$('#goodManner').val(count);
+			console.log($('#goodManner').val());
+			$('#goodMannerForm').submit();
+			alert("평가가 완료되었습니다.");
+			//평가 완료 후 부모창 새로 고침
+			opener.parent.location='http://localhost/getBuyListByMember';
+			opener.parent.location.reload();
+            window.close();
+			
+		});
+		// 평가제출
+		$('#badbtn').click(function() {
+			$('#badManner').val(count);
+			console.log($('#badManner').val());
+			$('#badMannerForm').submit();
+			alert("평가가 완료되었습니다.");
+			//평가 완료 후 부모창 새로 고침
+   			opener.parent.location='http://localhost/getBuyListByMember';
+   			opener.parent.location.reload();
+            window.close();
+		});
+	});
+</script>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Super Market Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); 
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+</head>
+<body>
+	<!-- miniMarket 로고 -->
+	<div class="logo_products">
+		<div class="container">
+		<div class="w3ls_logo_products_left1">			
+			</div>
+			<div class="w3ls_logo_products_left">
+				<h1><a style="font-size:xxx-large">Mini Market</a></h1>
+			</div>
+		</div>
+	</div>
+	<!-- miniMarket 로고 종료 -->
+	
+	<!-- 상단바.. 폼으로 가져다놓기 -->
+	<div class="navigation-agileits">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<div class="w3ls_logo_products_left">
+					<h1><a style="color:black;">매너 평가</a></h1>
+				</div>
+			</nav>
+		</div>
+	</div>
+	<!-- 상단바.. 폼으로 가져다놓기 종료 -->
+	<br>
+	<!-- 매너평가 폼 -->
+		<div style="text-align:center; font-weight:bold;">
+			<span th:text="${memberNicknameSale}" style="text-align:center; font-weight:bold; font-size:large;"></span> 님의 매너평가
+		</div>
+		<hr>
+		
+		<div class="container-fluid" align="center">
+			<button type="button" id="manner" style="align:center;" class="btn btn-warning">매너</button>
+			<button type="button" id="bmanner" style="align:center;" class="btn btn-primary">비매너</button>
+			<hr>
+		</div>
+		<div id="ma1" class="container-fluid" align="center">
+			<form method="post" th:action="@{/goodAddManner}" id="goodMannerForm">
+				<div>
+					<input type="hidden" name="goodManner" id="goodManner">
+					<input type="hidden" name="memberItemNo" th:value="${memberItemNo}">
+					<input type="hidden" name="memberUniqueNo" th:value="${memberUniqueNoSale}">
+					<!-- 별점 -->
+					<div>
+						<img src="/images/es.jpg" width="40" height="40" id="img1">
+						<img src="/images/es.jpg" width="40" height="40" id="img2">
+						<img src="/images/es.jpg" width="40" height="40" id="img3">
+						<img src="/images/es.jpg" width="40" height="40" id="img4">
+						<img src="/images/es.jpg" width="40" height="40" id="img5">
+					</div><hr>
+					<input class="pin pin1" type = "checkbox" name="goodScore1" id="goodScore1" hidden="hidden">
+					<input class="pin pin2" type = "checkbox" name="goodScore2" id="goodScore2" hidden="hidden">
+					<input class="pin pin3" type = "checkbox" name="goodScore3" id="goodScore3" hidden="hidden">
+					<input class="pin pin4" type = "checkbox" name="goodScore4" id="goodScore4" hidden="hidden">
+					<input class="pin pin5" type = "checkbox" name="goodScore5" id="goodScore5" hidden="hidden">
+					<!-- 별점 종료 -->
+					
+					<!-- 매너 컨텐츠 -->
+					<table>
+						<tr>
+							<td style="font-size:x-large;">
+								<input type="checkbox" name="mannerContent1" id="goodContent1" value="좋은 상품을 저렴하게 판매해요." style="width:20px;height:20px;"> 좋은 상품을 저렴하게 판매해요.<br>
+								<input type="checkbox" name="mannerContent2" id="goodContent2" value="시간 약속을 잘 지켜요." style="width:20px;height:20px;"> 시간 약속을 잘 지켜요.<br>
+								<input type="checkbox" name="mannerContent3" id="goodContent3" value="친절하고 매너가 좋아요." style="width:20px;height:20px;"> 친절하고 매너가 좋아요.<br>
+								<input type="checkbox" name="mannerContent4" id="goodContent4" value="응답이 빨라요." style="width:20px;height:20px;"> 응답이 빨라요.<br>
+								<input type="checkbox" name="mannerContent5" id="goodContent5" value="상품상태가 설명한 것과 같아요." style="width:20px;height:20px;"> 상품상태가 설명한 것과 같아요.<br>
+								<input type="checkbox" name="mannerContent6" id="goodContent6" value="상품설명이 자세해요." style="width:20px;height:20px;"> 상품설명이 자세해요.<br>
+							</td>
+						</tr>
+					</table>
+					<!-- 매너 컨텐츠 종료-->
+					<br>
+					<div>
+						<button type="button" id="goodbtn" class="btn btn-primary btn-block btn-lg">평가완료</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div id="ma2" class="container-fluid" align="center">
+			<form method="post" th:action="@{/badAddManner}" id="badMannerForm">
+				<div>
+					<input type="hidden" name="badManner" id="badManner">
+					<input type="hidden" name="memberItemNo" th:value="${memberItemNo}">
+					<!-- <input type="hidden" name="memberId" th:value="${memberUniqueNo}"> -->
+					<input type="hidden" name="memberUniqueNo" th:value="${memberUniqueNoSale}">
+					<textarea name="mannerContent1" class="form-control" rows="13" placeholder="회원의 어떤점이 안좋으셨나요? 평가를 작성해주세요."></textarea>
+				</div>
+				<div><br>
+					<button type="button" id="badbtn" class="btn btn-primary btn-block btn-lg">평가완료</button>
+				</div>
+			</form>	
+		</div>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.CompanyMapper">
+    <!-- 업체사진 수정 -->
+   <update id="updateCompanyPic" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyNameAndPic2">
+      UPDATE   
+         mini_market_company_pic
+      SET
+        profile_pic = #{profilePic},
+         pic_date = now()
+      WHERE company_id = #{companyId}
+   </update>
+   
+   <!-- 업체 닉네임 수정 -->
+    <update id="updateCompanyName" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyNameAndPic2">
+    UPDATE
+      mini_market_company
+    SET
+      company_name = #{companyName}
+    WHERE 
+      company_id = #{companyId}   
+    </update>
+   <!--업체의 정보 보여주기(업체명)-->
+   <select id="selectCompanyName" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany"
+      resultType="String">
+      SELECT
+         company_name as companyName
+      FROM
+         mini_market_company
+      WHERE
+         company_id = #{companyId}   
+   </select>
+   
+   <!--업체의 정보 보여주기(사진)-->
+   <select id="selectCompanyPic" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany"
+      resultType="String">
+      SELECT
+         profile_pic as profilePic
+      FROM
+         mini_market_company_pic
+      WHERE
+         company_id = #{companyId}
+   </select>
+   
+   <!-- 업체 아이디 찾기  -->
+   <select id="selectFindCompanyId" parameterType="com.cafe24.dk4750.miniMarket.vo.Company"
+      resultType="String">
+      <!-- 아이디 앞3개랑 뒤에 별4개가 붙어서 출력됩니다. -->
+      SELECT
+         CONCAT(SUBSTRING(company_id,1,3),'****') <!-- concat 합치다 -->
+      FROM 
+         mini_market_company
+      WHERE 
+         company_email = #{companyEmail}      
+      AND 
+         company_phone =#{companyPhone}
+   </select>
+   
+   <!--업체의 잃어버린 비번찾기 -->
+   <update id="updateCompanyFindPw" parameterType="com.cafe24.dk4750.miniMarket.vo.Company">
+      UPDATE 
+         mini_market_company
+      SET 
+         company_pw = PASSWORD(#{companyPw})
+      WHERE
+         company_id = #{companyId}
+      AND 
+         company_email = #{companyEmail}
+   </update>
+   
+   
+   <!--업체의 정보 수정(비밀번호 변경)-->
+    <update id="updateCompanyPw" parameterType="com.cafe24.dk4750.miniMarket.vo.Company">
+    UPDATE 
+       mini_market_company
+    SET 
+       company_pw = PASSWORD(#{companyPw})
+    WHERE 
+       company_id = #{companyId}         
+    </update>
+    
+    <!--업체의 정보수정 , 현재 비밀번호 일치하는지 확인  -->
+    <select id="selectCompanyPwId" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany" resultType="String">
+      SELECT
+         company_id as companyId         
+      FROM
+         mini_market_company
+      WHERE 
+          company_id = #{companyId}
+      AND
+         company_pw = PASSWORD(#{companyPw})      
+   </select>
+   
+    <!-- 업체 탈퇴시 정보 변경-->
+    <update id="deleteCompany" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany">
+       UPDATE mini_market_company
+      SET 
+         company_name = "x",
+         company_sido = "x",
+         company_sigungu = "x",
+         company_bname = "x",
+         company_phone = NULL,
+         company_pw = "x",
+         company_ceo_name = "x",
+         company_email = NULL,
+         company_date = now()
+      WHERE
+         company_id = #{companyId}
+      AND
+         company_pw = PASSWORD(#{companyPw})           
+     </update>
+    
+    <!--업체 탈퇴시 비밀번호 확인 -->
+    <select id="selectCompanyPw" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany" resultType="String">
+      SELECT
+         company_id as companyId         
+      FROM
+         mini_market_company
+      WHERE 
+         company_id = #{companyId}
+      AND company_pw = PASSWORD(#{companyPw})
+         
+   </select>
+   
+   <!--업체 자진 탈퇴 백업하기 -->
+   <insert id="insertCompanyBackUp" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany">
+    INSERT INTO mini_market_Company_backup(       
+       company_id, 
+       company_unique_no,
+       company_date       
+    )VALUES(
+        #{companyId},
+        #{companyUniqueNo},
+        now()
+    )
+   </insert>
+   
+   <!--탈퇴시 companyPic 삭제  -->
+    <delete id="deleteCompanyPic" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany">
+       DELETE FROM mini_market_company_pic
+       WHERE company_id = #{companyId}  
+   </delete> 
+   
+   <!--업체의 정보 수정(이름,전화번호,주소(동네))-->
+   <update id="updateCompanyOne" parameterType="com.cafe24.dk4750.miniMarket.vo.Company">
+      UPDATE mini_market_company
+      SET 
+         company_ceo_name = #{companyCeoName},
+         company_sido = #{companySido},
+         company_sigungu = #{companySigungu},
+         company_bname = #{companyBname},
+         company_phone = #{companyPhone}
+      WHERE
+         company_id = #{companyId}
+   </update>
+   
+   <!--업체의 정보보기 -->
+    <select id="selectCompanyOne" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany" resultType="com.cafe24.dk4750.miniMarket.vo.Company">
+        SELECT 
+            company_id as companyId,
+            company_sido as companySido,
+            company_sigungu as companySigungu,
+            company_bname as companyBname,
+            company_ceo_name as companyCeoName,
+            company_unique_no as companyUniqueNo,
+            company_name as companyName,
+            company_phone as companyPhone,
+            company_email as companyEmail,
+            company_date as companyDate
+         FROM 
+            mini_market_company
+         WHERE
+           company_id = #{companyId}
+   </select>
+  
+   <!-- 로그인 유효성 검사,세션에 담기 -->
+   <select id="selectLoginCompany" parameterType="com.cafe24.dk4750.miniMarket.vo.LoginCompany" resultType="com.cafe24.dk4750.miniMarket.vo.LoginCompany">
+      SELECT
+         company_id as companyId,
+          company_sido as companySido,
+          company_sigungu as companySigungu,
+          company_bname as companyBname,
+          company_pw as companyPw,
+         company_unique_no as companyUniqueNo,
+         company_name as companyName
+      FROM
+         mini_market_company
+      WHERE 
+         company_id = #{companyId}
+      AND company_pw = PASSWORD(#{companyPw})      
+   </select>
+   
+       
+   <!--회원 가입시 업체 이메일 중복확인 -->
+   <select id="selectCompanyEmail" parameterType="String"    resultType="String">
+      SELECT 
+         company_email as companyEmail
+      FROM 
+      	(SELECT company_email FROM mini_market_company
+       	UNION
+       	SELECT company_email FROM mini_market_company_backup
+		UNION
+		SELECT member_email FROM mini_market_member
+        UNION
+        SELECT member_email FROM mini_market_member_backup)m
+       WHERE company_email =#{checkCompanyEmail}
+       
+   </select>   
+   
+   <!--회원 가입시 업체 핸드폰 중복확인 -->
+   <select id="selectCompanyPhone" parameterType="String"    resultType="String">
+		SELECT
+			company_phone as companyPhone
+		FROM(
+		SELECT company_phone FROM mini_market_company
+		UNION
+		SELECT member_phone FROM mini_market_member
+		)t
+		WHERE company_phone = #{checkCompanyPhone}
+   </select>   
+   
+   <!--회원 가입시 업체 아이디 중복확인 -->
+   <select id="selectCompanyId" parameterType="String" resultType="String">
+      SELECT 
+         company_id as companyId
+      FROM(
+         SELECT company_id FROM mini_market_company
+         UNION
+         SELECT company_id FROM mini_market_company_backup
+		 UNION
+		 SELECT member_id FROM mini_market_member
+         UNION
+         SELECT member_id FROM mini_market_member_backup)m
+      WHERE company_id = #{checkCompanyId}
+   </select>
+      
+   <!--회원가입 업체 디폴트 사진추가 -->
+   <insert id="insertCompanyPic" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyPic">
+       INSERT INTO mini_market_company_pic(       
+          company_id, 
+          pic_date       
+       )VALUES(
+           #{companyId},
+           now()
+       )
+   </insert>
+   
+   <!--회원가입시 업체 고유번호추출 -->
+   <select id="selectCompanyUniqueNo" resultType="String">
+   SELECT 
+      CONCAT('c',(SELECT LPAD(COUNT(*)+1,6,'0')
+   FROM
+       mini_market_company))
+   </select>
+   
+   <!--회원가입 ,업체 정보 입력 -->
+   <insert id="insertCompany" parameterType="com.cafe24.dk4750.miniMarket.vo.Company">
+      INSERT INTO mini_market_company(
+         company_id,
+         company_sido,
+         company_sigungu,
+         company_bname,
+         company_pw,
+         company_name,
+         company_ceo_name,
+         company_email,
+         company_unique_no,
+         company_phone,
+         company_date               
+      ) VALUES (
+         #{companyId},
+         #{companySido},
+         #{companySigungu},
+         #{companyBname},        
+         PASSWORD(#{companyPw}),
+         #{companyName},
+         #{companyCeoName},
+         #{companyEmail},
+         #{companyUniqueNo},
+         #{companyPhone},
+         now()
+      )
+   </insert>   
+ 
+</mapper>

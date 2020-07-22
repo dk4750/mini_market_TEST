@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>hi</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+   
+$(document).ready(function(){
+   var memberId = $("#memberId").val();
+   var chatroomNo = $("#chatroomNo").val();
+   //function getAjax(){
+      $.ajax({
+           method: "Get",
+           //url: "/miniMarket/getAllMessages",
+            url: "/getAllMessages",
+           data: {chatroomNo : chatroomNo},
+           success: function(data) {
+              console.log("리스트 출력");
+              //$('.anotherMsg').empty();
+              $('#chat_list').empty();
+               $.each(data , function(i){              
+                console.log(data[i]);
+                var name = '[' +data[i].memberId + ']' ;
+                var html =  data[i].chatMessage + ' : ' + data[i].chatDate.substring(5, 16);
+                console.log();
+                
+                if($("#memberId").val() == data[i].memberId){
+                	$('#chat_list').prepend('<br><span class="msg btn btn-primary" style="margin-left:400px; word-break:break-all;">' + html + '</span><br>');  	
+                }else{
+                	 $('#chat_list').prepend('<span class="msg btn btn-warning" style="margin-right:400px; word-break:break-all;">' + html + '</span>');
+                     $('#chat_list').prepend('<span class="anotherName" id="anotherName">' + name + '</span>');    	
+                }          
+              });
+           },  
+           error: function (error) {
+                alert('data error');
+            }
+       });
+   //}
+})
+    
+</script>
+<style>
+   #chatWrap {
+    width: 600px;
+    border: 1px solid #ddd;
+}
+
+#chatHeader {
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 25px;
+    font-weight: 900;
+    border-bottom: 1px solid #ddd;
+}
+
+#chatLog {
+    height: 700px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.myMsg {
+    text-align: right;
+}
+
+.anotherMsg {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.msg {
+    display: inline-block;
+    border-radius: 15px;
+    padding: 7px 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    
+
+}
+
+.anotherMsg > .msg {
+    background-color: #f1f0f0;
+
+}
+
+.myMsg > .msg {
+    background-color: #0084FF;
+    color: #fff;
+}
+
+.anotherName {
+    font-size: 12px;
+    display: block;
+}
+
+#chatForm {
+    display: block;
+    width: 100%;
+    height: 50px;
+    border-top: 2px solid #f0f0f0;
+}
+
+#chatMessage {
+    width: 85%;
+    height: calc(100% - 1px);
+    border: none;
+    padding-bottom: 0;
+}
+
+#message:focus {
+    outline: none;
+}
+
+#chatForm > input[type=submit] {
+    outline: none;
+    border: none;
+    background: none;
+    color: #0084FF;
+    font-size: 17px;
+}
+</style>
+</head>
+<body>
+   <!-- onresize="window.top.resizeTo(550,800)" onload="window.top.resizeTo(400,100)" -->
+   <div id="chatWrap">
+   <h1 id="chatHeader">채팅방</h1><a style="margin-left:500px;" href="#go-bottom">맨 아래로</a>
+      <div id="chatLog">
+         <div id="chat_list">
+         </div>
+         <div id="chatForm" >
+         <input type="hidden" name="memberId" placeholder="작성자"  th:value="${memberNickname}" readonly="readonly" id="memberId">
+         <input type="hidden" name="chatroomNo" th:value="${chatroom.chatroomNo}" id="chatroomNo">
+      </div>
+         <input type="hidden" th:value="${memberId}" id="memberId">
+          <div id="go-bottom"></div>
+      </div>
+   </div>
+</body>
+
+</html>

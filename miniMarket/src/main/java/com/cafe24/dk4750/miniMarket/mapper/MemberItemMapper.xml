@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.MemberItemMapper">
+
+	<!-- index페이지에서 지역에 상관없이 상품 리스트 출력해주기 -->
+	<select id="selectIndexItemList" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberItemPic">
+		SELECT
+			 mi.member_item_no AS memberItemNo,
+	         mi.member_item_title AS memberItemTitle,
+	         mi.member_item_price AS memberItemPrice,
+	         mi.member_item_date AS memberItemDate,
+	         mi.member_unique_no AS memberUniqueNo,
+	         m.member_sigungu AS memberSigungu,
+	         m.member_bname AS memberBname,
+	         mip.member_item_pic1 AS memberItemPic1
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		WHERE (mi.member_item_title LIKE CONCAT('%', #{searchWord}, '%')
+		OR mi.member_item_content LIKE CONCAT('%', #{searchWord}, '%'))
+		AND mi.member_item_state = "판매중"
+		ORDER BY mi.member_item_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+
+	<!-- 검색어의 따른 글의 총갯수 -->
+	<select id="totalSoldMemberItemBySearch" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM mini_market_member_item
+		WHERE (member_item_title LIKE CONCAT('%', '고', '%')
+		OR member_item_content LIKE CONCAT('%', '고', '%'))
+		AND member_item_state = '판매완료'
+	</select>
+
+	<!-- 판매된 글의 총갯수 -->
+	<select id="totalSoldMemberItem" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM mini_market_member_item	
+		Where member_item_state = '판매완료'
+	</select>
+	
+	<!-- 글의 총갯수 -->
+	<select id="totalMemberItem" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM mini_market_member_item
+		WHERE member_item_state = '판매중'	
+	</select>
+	<!-- 검색어의 따른 글의 총갯수 -->
+	<select id="totalMemberItemBySearch" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM mini_market_member_item
+		WHERE (member_item_title LIKE CONCAT('%', #{searchWord}, '%')
+		OR member_item_content LIKE CONCAT('%', #{searchWord}, '%'))
+		AND member_item_state = '판매중' 
+	</select>
+	
+	<!-- 다음 멤버 아이템의 넘버를 알기위해서 현재 멤버 아이템넘버 max+1 값 구해오기 -->
+	<select id="selectMaxPlusMemberItemNo" resultType="int">
+		SELECT IFNULL(MAX(member_item_no)+1, 1) FROM mini_market_member_item
+	</select>
+	
+	<!-- 멤버아이템 추가 -->
+	<insert id="insertMemberItem" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItem">
+		INSERT INTO mini_market_member_item
+			(
+				member_item_no,
+				member_unique_no,
+				member_item_title,
+				category_name,
+				member_item_price,
+				member_item_content,
+				member_item_date
+			) VALUES (
+				#{memberItemNo},
+				#{memberUniqueNo},
+				#{memberItemTitle},
+				#{categoryName},
+				#{memberItemPrice},
+				#{memberItemContent},
+				NOW()
+			)
+	</insert>
+	
+	<!-- 멤버 아이템 삭제(비활성화) -->
+	<update id="disabledMemberItem" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItem">
+		UPDATE mini_market_member_item
+		SET member_item_state = #{memberItemState}
+		WHERE member_item_no = #{memberItemNo}
+	</update>
+	
+	<!-- 판매자의 아이템 판매완료 -->
+	<update id="itemSalesComplete" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItem">
+		UPDATE mini_market_member_item
+		SET member_item_state = #{memberItemState}
+		WHERE member_item_no = #{memberItemNo}
+	</update>
+	
+	<!-- 멤버 아이템 수정을 위한 기존 값 가져오기 상세보기 -->
+	<select id="selectMemberItemOneForUpdate" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItem" parameterType="int">
+      SELECT 
+         member_item_no AS memberItemNo,
+         member_unique_no AS memberUniqueNo,
+         member_item_title AS memberItemTitle,
+         category_name AS categoryName,
+         member_item_price AS memberItemPrice,
+         member_item_content AS memberItemContent,
+         member_item_date AS memberItemDate,
+         member_item_state AS memberItemState
+      FROM mini_market_member_item
+      WHERE member_item_no = #{memberItemNo}
+   </select>
+	
+	<!-- 멤버 아이템 상세보기 -->
+	<select id="selectMemberItemOne" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberPicAndMemberItemPicAndMemberTempTotalAndMemberItemLike" parameterType="int">
+		SELECT 
+		   mi.member_item_no AS memberItemNo,
+		   m.member_id AS memberId,
+		   mi.member_unique_no AS memberUniqueNo,
+		   mi.member_item_title AS memberItemTitle,
+		   mi.category_name AS categoryName,
+		   mi.member_item_price AS memberItemPrice,
+		   mi.member_item_content AS memberItemContent,
+		   mi.member_item_date AS memberItemDate,
+		   mi.member_item_state AS memberItemState,
+		   m.member_bname AS memberBname,
+		   m.member_nickname AS memberNickname,
+		   mp.profile_pic AS profilePic,
+		   mip.member_item_pic1 AS memberItemPic1,
+		   mip.member_item_pic2 AS memberItemPic2,
+		   mip.member_item_pic3 AS memberItemPic3,
+		   mip.member_item_pic4 AS memberItemPic4,
+		   mip.member_item_pic5 AS memberItemPic5,
+		   (SELECT member_temp_total FROM mini_market_member_temp_total WHERE member_unique_no = m.member_unique_no ORDER BY temp_total_no DESC LIMIT 1) AS memberTempTotal,
+			COUNT(*) AS likeActive
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_pic AS mp
+		ON m.member_id = mp.member_id
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		INNER JOIN mini_market_member_temp_total AS mtt
+		ON m.member_unique_no = mtt.member_unique_no
+		INNER JOIN mini_market_member_item_like AS mil
+		ON mi.member_item_no = mil.member_item_no AND mil.like_active = 1
+		WHERE mi.member_item_no = #{memberItemNo}
+	</select>
+	
+	<!-- 멤버 아이템 수정 (액션)-->
+	<update id="updateMemberItem" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItem">
+		UPDATE mini_market_member_item
+		SET
+			member_item_title = #{memberItemTitle},
+			category_name = #{categoryName},
+			member_item_price = #{memberItemPrice},
+			member_item_content = #{memberItemContent}
+		WHERE member_item_no = #{memberItemNo}
+	</update>
+	
+	<!-- 판매중인 동네 아이템 리스트 출력 -->
+	<select id="selectItemList" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberItemPic">
+		SELECT
+			 mi.member_item_no AS memberItemNo,
+	         mi.member_item_title AS memberItemTitle,
+	         mi.member_item_price AS memberItemPrice,
+	         mi.member_item_date AS memberItemDate,
+	         mi.member_unique_no AS memberUniqueNo,
+	         m.member_sigungu AS memberSigungu,
+	         m.member_bname AS memberBname,
+	         mip.member_item_pic1 AS memberItemPic1
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		WHERE (mi.member_item_title LIKE CONCAT('%', #{searchWord}, '%')
+		OR mi.member_item_content LIKE CONCAT('%', #{searchWord}, '%'))
+		AND mi.member_item_state = "판매중"
+		AND m.member_sigungu = #{memberSigungu}
+		AND m.member_bname = #{memberBname}
+		ORDER BY mi.member_item_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 판매중인 관심동네 아이템 리스트 출력 -->
+	<select id="selectItemListByPlace" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberInterestPlaceAndMemberItemPic">
+		SELECT
+			 mip.member_item_pic1 AS memberItemPic1,
+	         mi.member_item_title AS memberItemTitle,
+	         mi.member_item_price AS memberItemPrice,
+	         mi.member_item_date AS memberItemDate,
+	         mi.member_unique_no AS memberUniqueNo,
+	         m.member_sigungu AS memberSigungu,
+	         m.member_bname AS memberBname
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_interest_place ip
+		ON ip.sigungu = m.member_sigungu AND ip.bname = m.member_bname
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		AND mi.member_item_state = "판매중"
+		AND m.member_sigungu = #{memberSigungu}
+		AND m.member_bname = #{memberBname}
+		ORDER BY mi.member_item_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 카테고리별 동네 판매중인 아이템 리스트 출력 -->
+	<select id="selectItemListByCategory" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberItemPic">
+		SELECT
+			 mip.member_item_pic1 AS memberItemPic1,
+			 mi.member_item_no AS memberItemNo,
+	         mi.member_item_title AS memberItemTitle,
+	         mi.member_item_price AS memberItemPrice,
+	         mi.member_item_date AS memberItemDate,
+	         mi.member_unique_no AS memberUniqueNo,
+	         m.member_sigungu AS memberSigungu,
+	         m.member_bname AS memberBname
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		AND mi.member_item_state = "판매중"
+		AND m.member_sigungu = #{memberSigungu}
+		AND m.member_bname = #{memberBname}
+		AND mi.category_name = #{categoryName}
+		ORDER BY mi.member_item_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 나의 인 아이템 리스트 출력 -->
+	<select id="selectItemListMyItem" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberItemPic">
+		SELECT
+			 mi.member_item_no AS memberItemNo,
+	         mi.member_item_title AS memberItemTitle,
+	         mi.member_item_price AS memberItemPrice,
+	         mi.member_item_date AS memberItemDate,
+	         mi.member_unique_no AS memberUniqueNo,
+	         m.member_sigungu AS memberSigungu,
+	         m.member_bname AS memberBname,
+	         mip.member_item_pic1 AS memberItemPic1
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		AND mi.member_item_state = "판매중"
+		AND m.member_unique_no = #{memberUniqueNo}
+		ORDER BY mi.member_item_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 나의 판매완료 아이템 리스트 출력 -->
+	<select id="selectItemListBySaleMyItem" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberItemPic">
+		SELECT
+			 mi.member_item_no AS memberItemNo,
+	         mi.member_item_title AS memberItemTitle,
+	         mi.member_item_price AS memberItemPrice,
+	         mi.member_item_date AS memberItemDate,
+	         mi.member_unique_no AS memberUniqueNo,
+	         m.member_sigungu AS memberSigungu,
+	         m.member_bname AS memberBname,
+	         mip.member_item_pic1 AS memberItemPic1
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		AND mi.member_item_state = "판매완료"
+		AND m.member_unique_no = #{memberUniqueNo}
+		ORDER BY mi.member_item_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 나의 아이템 상세보기 시 나의 판매중인 아이템 리스트 몇개만 출력 -->
+	<select id="selectItemListMyItemLimit" parameterType="String" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberItemPic">
+		SELECT
+			 mi.member_item_no AS memberItemNo,
+	         mi.member_item_title AS memberItemTitle,
+	         mi.member_item_price AS memberItemPrice,
+	         mi.member_item_date AS memberItemDate,
+	         mi.member_unique_no AS memberUniqueNo,
+	         m.member_sigungu AS memberSigungu,
+	         m.member_bname AS memberBname,
+	         mip.member_item_pic1 AS memberItemPic1
+		FROM mini_market_member_item AS mi
+		INNER JOIN mini_market_member AS m
+		ON mi.member_unique_no = m.member_unique_no
+		INNER JOIN mini_market_member_item_pic AS mip
+		ON mi.member_item_no = mip.member_item_no
+		WHERE mi.member_item_state = "판매중"
+		AND m.member_unique_no = #{memberUniqueNo}
+		ORDER BY mi.member_item_no DESC
+		LIMIT 0, 2
+	</select>
+	
+	<!-- 내가 좋아요 한 아이템 리스트 출력 -->
+	<select id="selectMyLikeItem" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemAndMemberAndMemberItemPicAndMemberItemLike">
+		SELECT
+	          mi.member_item_no AS memberItemNo,
+              mi.member_item_title AS memberItemTitle,
+	          mi.member_item_price AS memberItemPrice,
+              mi.member_item_date AS memberItemDate,
+              mi.member_unique_no AS memberUniqueNo,
+	          m.member_sigungu AS memberSigungu,
+	          m.member_bname AS memberBname,
+	          mip.member_item_pic1 AS memberItemPic1
+	    FROM mini_market_member_item AS mi
+        INNER JOIN mini_market_member AS m
+	    ON mi.member_unique_no = m.member_unique_no
+	    INNER JOIN mini_market_member_item_pic AS mip
+	    ON mi.member_item_no = mip.member_item_no
+	    INNER JOIN mini_market_member_item_like AS mil
+	    ON mi.member_item_no = mil.member_item_no
+	    AND mil.member_unique_no = #{memberUniqueNo}
+	    AND mil.like_active = '1'
+	    ORDER BY mil.like_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+</mapper>

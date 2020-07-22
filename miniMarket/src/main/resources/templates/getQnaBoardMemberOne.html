@@ -1,0 +1,469 @@
+<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Super Market an Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Faq :: w3layouts</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Super Market Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+		
+		$("#updateBtn").click(function(){
+			if($("#qnaBoardMemberTitle").val() == ""){
+				alert("수정할 제목을 입력해주세요!");
+				$("#qnaBoardMemberTitle").focus();
+				return;
+			}else if($("#qnaBoardMemberContent").val() == ""){
+				alert("수정할 내용을 입력해주세요!");
+				$("#qnaBoardMemberContent").focus();
+				return;
+			}else if($("#qnaBoardMemberTitle").val() == $("#qnaBoardMemberTitle2").val() & $("#qnaBoardMemberContent").val() == $("#qnaBoardMemberContent2").val()){
+				alert("수정된 값이 없습니다!");
+				$("#qnaBoardMemberTitle").focus();
+				return;
+			}
+			$("#updateForm").submit();
+		});
+		
+		$("#addBtn").click(function(){
+			if($("#qnaCommentMember").val() == ""){
+				alert("댓글을 입력해주세요!")
+				$("#qnaCommentMember").focus();
+				return;
+			}
+			$("#addForm").submit();
+		});
+		$("#deleteBtn").click(function(){
+			$("#deleteForm").submit();
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+</head>
+	
+<body>
+<!-- header -->
+	<div class="agileits_header">
+		<div class="container">
+			<div class="w3l_offers">
+			<p><a th:href="@{/about}">About us</a></p>
+			</div>
+			<div class="agile-login">
+				<ul>
+					<li th:if="${session.loginMember != null }">
+						<a th:href="@{/logoutMember}">로그아웃</a>
+					</li>
+					<li th:if="${session.loginCompany != null }">
+						<a th:href="@{/logoutCompany}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginAdmin != null }">
+						<a th:href="@{/logoutAdmin}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginMember != null}">
+						<a th:href="@{/memberMyPage}">마이페이지(회원)</a>
+					</li>
+					<li th:if="${session.loginCompany != null}">
+						<a th:href="@{/companyMyPage}">마이페이지(업체)</a>
+					</li>					
+					<li	th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/loginMemberAndCompany}">로그인</a>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/addMemberAndCompany}">회원가입</a>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">QnA<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getQnaBoardMemberHtml}">멤버 자주 묻는 질문</a></li>
+											<li><a th:href="@{/getQnaBoardCompany}">업체 자주 묻는 질문</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">공지사항<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getNoticeList}">공지사항</a></li>
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addNotice}">공지사항작성</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{loginAdmin}">관리자</a>
+					</li>
+				</ul>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember != null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a th:href="@{/getMyLikeItem}">
+					<button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember == null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a>
+					<button class="w3view-cart" type="button" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+
+	<div class="logo_products">
+		<div class="container">
+		<div class="w3ls_logo_products_left1">
+			</div>
+		<div class="w3ls_logo_products_left">			
+			</div>
+			<div class="w3ls_logo_products_left">
+				<h1><a th:href="@{/index}">Mini Market</a></h1>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //header -->
+<!-- navigation -->
+	<div class="navigation-agileits">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header nav_2">
+					<button type="button"
+						class="navbar-toggle collapsed navbar-toggle1"
+						data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+					<ul class="nav navbar-nav">
+						<li class="active"><a th:href="@{/index}" class="act">Home</a></li>
+						<!-- Mega Menu -->
+							<li class="dropdown"  th:if="${session.loginMember} != null"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<li class="dropdown"  th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginCompany != null || session.loginMember != null}"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+						<li th:if="${session.loginAdmin == null && session.loginCompany == null && session.loginMember!=null}"><!-- 채팅방 버튼 -->
+							<a th:href="@{/chatroomList}" onclick="window.open(this.href,'_blank','width=600,height=850,left=400px,top=200px, scrollbars=yes');return false;">채팅방</a>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">회원 관리<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getAdminMemberList}">회원</a></li>
+											<li><a th:href="@{getAdminCompanyList}">업체</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">신고 리스트<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getReportMemberByMemberList}">회원 -> 회원</a></li>
+											<li><a th:href="@{getReportMemberByMemberItemList}">회원 -> 회원 아이템</a></li>
+											<li><a th:href="@{getReportMemberByCompanyList}">회원 -> 업체</a></li>
+											<li><a th:href="@{getReportMemberByCompanyItemList}">회원 -> 업체 아이템</a></li>
+											<li><a th:href="@{getReportCompanyByMemberList}">업체 -> 회원 댓글</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">카테고리 생성<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addCategory}">카테고리 생성</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+		
+<!-- //navigation -->
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">FAQ</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<!-- help-page -->
+	<!--brands-->
+   
+<!--//brands-->
+	<div class="faq-w3agile" id="myQna">
+		<div class="container"> 
+			<div class="col-md-12 w3_agileits_contact_grid_right">
+				<h2 class="w3_agile_header">질문 상세보기</h2>
+				<!-- 관리자 or 게시글 올린사람만 -->
+				<div th:if="${qnaBoardMember.memberUniqueNo == memberUniqueNo}">
+					<form method="post" th:action="@{modifyQnaBoardMember}" id="updateForm">
+						<table class="table table-bordered">
+					        <tbody>
+					            <tr>
+					            	<th>게시글 번호</th>
+					                <td th:text="${qnaBoardMember.qnaBoardMemberNo}"></td>
+					                <th>제목</th>
+					                <td>
+					                	<input type="text" th:value="${qnaBoardMember.qnaBoardMemberTitle}" name="qnaBoardMemberTitle" id="qnaBoardMemberTitle">
+					                	<input type="hidden" th:value="${qnaBoardMember.qnaBoardMemberTitle}" id="qnaBoardMemberTitle2">
+					                </td>
+					            </tr>
+					            <tr>
+					                <th>작성자</th>
+					                <td th:text="${qnaBoardMember.memberNickname}"></td>
+					                <th>작성시간</th>
+					                <td th:text="${qnaBoardMember.qnaBoardMemberDate}"></td>
+					            </tr>
+					            <tr>
+					                <th>내용</th>
+					                <td colspan="3">
+					                	<textarea name="qnaBoardMemberContent" th:text="${qnaBoardMember.qnaBoardMemberContent}" id="qnaBoardMemberContent"></textarea>
+					                	<input type="hidden" th:value="${qnaBoardMember.qnaBoardMemberContent}" id="qnaBoardMemberContent2">
+					                </td>
+					            </tr>
+					        </tbody>
+					    </table>
+					    <input type="hidden" th:value="${qnaBoardMember.qnaBoardMemberNo}" name="qnaBoardMemberNo">
+					    <button type="button" class="btn btn-danger" id="updateBtn">수정</button>
+					    <button type="button" class="btn btn-success" id="deleteBtn">삭제</button>
+				    </form>
+				    <form method="post" th:action="@{modifyQnaBoardMemberByActive}" id="deleteForm">
+				    	<input type="hidden" th:value="${qnaBoardMember.qnaBoardMemberNo}" name="qnaBoardMemberNo" id="active">
+				    </form>
+			    </div>
+			    <!-- 일반 회원 -->
+			    <div th:unless="${qnaBoardMember.memberUniqueNo == memberUniqueNo}">
+			    	<table class="table table-bordered">
+			        <tbody>
+			            <tr>
+			            	<th>게시글 번호</th>
+			                <td th:text="${qnaBoardMember.qnaBoardMemberNo}"></td>
+			                <th>제목</th>
+			                <td th:text="${qnaBoardMember.qnaBoardMemberTitle}"></td>
+			            </tr>
+			            <tr>
+			                <th>작성자</th>
+			                <td th:text="${qnaBoardMember.memberUniqueNo}"></td>
+			                <th>작성시간</th>
+			                <td th:text="${qnaBoardMember.qnaBoardMemberDate}"></td>
+			            </tr>
+			            <tr>
+			                <th>내용</th>
+			                <td colspan="3" th:text="${qnaBoardMember.qnaBoardMemberContent}"> 
+			                </td>
+			            </tr>
+			        </tbody>
+			    </table>
+			    </div>
+				    <form method="post" th:action="@{addQnaBoardCommentMember}" class="form-group" id="addForm">
+						<input type="hidden" name="qnaBoardMemberNo" th:value="${qnaBoardMember.qnaBoardMemberNo}">
+						<div class="input-group mb-3">
+							<textarea rows="1" cols="50" class="form-control" name="qnaCommentMember" id="qnaCommentMember"></textarea>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-danger" id="addBtn">댓글 입력</button>
+							</div>
+						</div>
+					</form>
+				<div>
+					<table class="table table-striped">
+						<tr>
+							<td>작성자</td>
+							<td>내용</td>
+							<td>시간</td>
+							<td>삭제</td>
+						</tr>
+						<tr th:each="c : ${CommentList}">
+							<td>
+								<span th:if="${#strings.equals(#strings.substring(c.qnaCommentMemberDate,0,10),day)}" class="badge badge-warning">new</span>
+								<label th:text="${c.adminId}"></label>
+							</td>
+							<td th:text="${c.qnaCommentMember}"></td>
+							<td th:text="${c.qnaCommentMemberDate}"></td>
+							<td th:text="${lastPage}"></td>
+							<td><a th:href="@{removeQnaCommentMember(qnaCommentMemberNo=${c.qnaCommentMemberNo},qnaBoardMemberNo=${qnaBoardMember.qnaBoardMemberNo})}" th:class="${qnaBoardMember.memberUniqueNo == memberUniqueNo} ? 'btn btn-danger' : 'btn btn-dark disabled'">삭제</a></td>
+						</tr>
+					</table>
+					<div class="d-flex">
+						<a th:if="${currentPage} != 1" th:href="@{qnaBoardMemberOne(currentPage=${currentPage-1},qnaBoardMemberNo=${qnaBoardMember.qnaBoardMemberNo})}" class="btn btn-primary mr-auto">이전</a>
+						<a th:if="${currentPage} != ${lastPage}" th:href="@{qnaBoardMemberOne(currentPage=${currentPage+1},qnaBoardMemberNo=${qnaBoardMember.qnaBoardMemberNo})}" class="btn btn-primary">다음</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- //footer -->
+<div class="footer">		
+		<div class="footer-copy">
+			
+			<div class="container">
+				<p>© 2017 Super Market. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+			</div>
+		</div>
+		
+	</div>	
+	<div class="footer-botm">
+			<div class="container">
+				<div class="w3layouts-foot">
+					<ul>			
+						<li><a href="https://github.com/dk4750/mini_market" class="w3_agile_dribble"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="payment-w3ls">	
+					<img src="images/card.png" alt=" " class="img-responsive">
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+<!-- //footer -->	
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- top-header and slider -->
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+			$().UItoTop({ easingType: 'easeOutQuart' });
+								
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+<script src="js/minicart.min.js"></script>
+<script>
+	// Mini Cart
+	paypal.minicart.render({
+		action: '#'
+	});
+
+	if (~window.location.search.indexOf('reset=true')) {
+		paypal.minicart.reset();
+	}
+</script>
+<!-- main slider-banner -->
+<script src="js/skdslider.min.js"></script>
+<link href="css/skdslider.css" rel="stylesheet">
+<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
+						
+			jQuery('#responsive').change(function(){
+			  $('#responsive_wrapper').width(jQuery(this).val());
+			});
+			
+		});
+</script>
+<!-- //main slider-banner -->  
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.SoldoutMapper">
+	<!-- 구매자의 구매완료 리스트 총 갯수 -->
+	<select id="totalSoldout" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM mini_market_‪item_soldout	
+	</select>
+	
+	<!-- 판매완료 상품 추가 -->
+	<insert id="insertSoldoutItem" parameterType="com.cafe24.dk4750.miniMarket.vo.ItemSoldout">
+		INSERT INTO mini_market_‪item_soldout
+			(
+				member_item_no,
+				member_unique_no,
+				soldout_date
+			) VALUES (
+				#{memberItemNo},
+				#{memberUniqueNo},
+				NOW()
+			)
+	</insert>
+	
+	<!-- 구매자의 구매완료 리스트 -->
+	<!-- soldout 테이블과 memberItem테이블과 memberItemPic 테이블 INNER JOIN -->
+	<select id="selectBuyListByMember" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.ItemSoldoutAndMemberItemAndMemberItemPic">
+		SELECT
+			iso.soldout_no AS soldoutNo,
+			iso.member_item_no AS memberItemNo,
+			iso.member_unique_no AS memberUniqueNo,
+			iso.soldout_date AS soldoutDate,
+			i.member_item_title AS memberItemTitle,
+			i.member_item_price AS memberItemPrice,
+			i.member_unique_no AS memberUniqueNoSale,
+			i.member_item_date AS memberItemDate,
+			ip.member_item_pic1 AS memberItemPic1
+		FROM mini_market_‪item_soldout AS iso
+		INNER JOIN mini_market_member_item AS i
+		ON iso.member_item_no = i.member_item_no
+		INNER JOIN mini_market_member_item_pic AS ip
+		ON i.member_item_no = ip.member_item_no
+		WHERE iso.member_unique_no = #{memberUniqueNo}
+		ORDER BY iso.soldout_no DESC
+		
+	</select>
+	
+	<!-- 구매완료 상품 리스트에서 삭제 -->
+	<delete id="deleteBuyItem" parameterType="int">
+		DELETE FROM mini_market_‪item_soldout
+		WHERE soldout_no = #{soldoutNo}
+	</delete>
+</mapper>

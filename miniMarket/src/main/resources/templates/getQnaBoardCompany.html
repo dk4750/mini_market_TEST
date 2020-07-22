@@ -1,0 +1,542 @@
+<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Super Market an Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Faq :: w3layouts</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Super Market Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+	$(document).ready(function(){
+
+	});
+</script>
+<!-- start-smoth-scrolling -->
+<style>
+	#p{
+		border:3px solid;
+		font-weight: 800;
+	}
+</style>
+</head>
+	
+<body>
+<!-- header -->
+	<div class="agileits_header">
+		<div class="container">
+			<div class="w3l_offers">
+			<p><a th:href="@{/about}">About us</a></p>
+			</div>
+			<div class="agile-login">
+				<ul>
+					<li th:if="${session.loginMember != null }">
+						<a th:href="@{/logoutMember}">로그아웃</a>
+					</li>
+					<li th:if="${session.loginCompany != null }">
+						<a th:href="@{/logoutCompany}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginAdmin != null }">
+						<a th:href="@{/logoutAdmin}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginMember != null}">
+						<a th:href="@{/memberMyPage}">마이페이지(회원)</a>
+					</li>
+					<li th:if="${session.loginCompany != null}">
+						<a th:href="@{/companyMyPage}">마이페이지(업체)</a>
+					</li>					
+					<li	th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/loginMemberAndCompany}">로그인</a>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/addMemberAndCompany}">회원가입</a>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">QnA<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getQnaBoardMemberHtml}">멤버 자주 묻는 질문</a></li>
+											<li><a th:href="@{/getQnaBoardCompany}">업체 자주 묻는 질문</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">공지사항<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getNoticeList}">공지사항</a></li>
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addNotice}">공지사항작성</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{loginAdmin}">관리자</a>
+					</li>
+				</ul>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember != null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a th:href="@{/getMyLikeItem}">
+					<button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember == null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a>
+					<button class="w3view-cart" type="button" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+
+	<div class="logo_products">
+		<div class="container">
+		<div class="w3ls_logo_products_left1">
+			</div>
+		<div class="w3ls_logo_products_left">			
+			</div>
+			<div class="w3ls_logo_products_left">
+				<h1><a th:href="@{/index}">Mini Market</a></h1>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //header -->
+<!-- navigation -->
+	<div class="navigation-agileits">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header nav_2">
+					<button type="button"
+						class="navbar-toggle collapsed navbar-toggle1"
+						data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+					<ul class="nav navbar-nav">
+						<li class="active"><a th:href="@{/index}" class="act">Home</a></li>
+						<!-- Mega Menu -->
+							<li class="dropdown"  th:if="${session.loginMember} != null"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<li class="dropdown"  th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginCompany != null || session.loginMember != null}"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+						<li th:if="${session.loginAdmin == null && session.loginCompany == null && session.loginMember!=null}"><!-- 채팅방 버튼 -->
+							<a th:href="@{/chatroomList}" onclick="window.open(this.href,'_blank','width=600,height=850,left=400px,top=200px, scrollbars=yes');return false;">채팅방</a>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">회원 관리<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getAdminMemberList}">회원</a></li>
+											<li><a th:href="@{getAdminCompanyList}">업체</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">신고 리스트<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getReportMemberByMemberList}">회원 -> 회원</a></li>
+											<li><a th:href="@{getReportMemberByMemberItemList}">회원 -> 회원 아이템</a></li>
+											<li><a th:href="@{getReportMemberByCompanyList}">회원 -> 업체</a></li>
+											<li><a th:href="@{getReportMemberByCompanyItemList}">회원 -> 업체 아이템</a></li>
+											<li><a th:href="@{getReportCompanyByMemberList}">업체 -> 회원 댓글</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">카테고리 생성<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addCategory}">카테고리 생성</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+		
+<!-- //navigation -->
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">자주 묻는 질문</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<!-- help-page -->
+	<div class="faq-w3agile">
+		<div class="container"> 
+			<div id="title1">
+				<h2 class="w3_agile_header">자주 묻는 질문</h2> 
+				<ul class="faq">
+					<li class="item1"><a href="#" title="click here">당근마켓 지역광고 운영정책</a>
+						<ul>
+							<li class="subitem1">
+								<p id="p"> 
+									지역광고가 다음의 각 항목 중 어느 하나에 해당할 경우, 해당 지역광고의 심사 미승인 또는 게재를 제한할 수 있습니다.
+
+									1. 광고 미승인 및 게재제한 사유<br><br>
+									
+									① 회사에 법률적 또는 재산적 위험을 발생시키거나 발생시킬 우려가 있는 경우<br><br>
+									
+									* 지역광고가 관련 법령을 위반하는 상점, 상품 또는 서비스를 홍보함으로써 회사가 민.형사적 책임을 부담할 가능성이 있는 경우<br><br>
+									
+									* 지역광고가 관련 법령을 위반하는 회원의 영업행위 등에 연계됨으로써 회사가 민.형사적 책임을 부담할 가능성이 있는 경우<br><br>
+									
+									[대표적 사례들]<br><br>
+									
+									- 흥신소/심부름센터 업소 내에서 개인사생활 조사 등의 서비스 제공 확인시 광고게재제한<br><br>
+									
+									- 출장 안마/마사지 서비스 제공 확인시 광고게재제한 (성매매 연계 개연성)<br><br>
+									
+									- 의료기관이 아닌데 문신/반영구 시술 서비스 제공이 확인되는 경우 광고게재제한<br><br><br>
+									
+									 
+									
+									② 회사 및 광고매체의 명예ㆍ평판ㆍ신용이나 신뢰도를 훼손하거나 훼손할 우려가 있는 경우<br><br>
+									
+									* 지역광고가 관련 법령을 위반하지는 않더라도 도의적으로 비난의 대상이 되거나 사회 일반의 정서에 반하는 회원의 영업행위에 연계됨으로써 회사의 명예.평판.신용.신뢰도가 훼손될 가능성이 있는 경우<br><br>
+									
+									 [대표적 사례들]<br><br>
+									
+									- 단란주점, 토킹바 같은 유흥업소 광고나 유흥업소 직업정보 제공 광고로 확인시 광고게재제한<br><br>
+									
+									- 애인대행 서비스 제공 확인시 광고게재제한<br><br>
+									
+									- 흥신소 및 심부름센터 광고의 광고게재 제한<br><br>
+									
+									- 대출 또는 사채 광고의 광고게재 제한<br><br>
+									
+									- 다단계 업체의 구인광고 광고게재 제한<br><br><br>
+									
+									 
+									
+									③ 서비스 또는 광고매체의 품질을 저하시키거나 저하시킬 우려가 있는 경우<br><br>
+									
+									* 광고 품질이 현저히 떨어지는 경우<br><br>
+									
+									[대표적 사례들]<br><br>
+									
+									- 첫번째 이미지에 텍스트가 20% 이상 포함(예: 전단지)<br><br>
+									
+									- 업소나 상품 및 서비스의 내용을 충분히 설명하지 못함<br><br>
+									
+									- 해상도나 촛점이 안 맞는 등 이미지 퀄러티가 낮음<br><br>
+									
+									- 무성의한 광고<br><br>
+									
+									- 기타 광고 품질이 떨어지는 광고들<br><br><br>
+									
+									 
+									
+									* 지역광고라고 보기에 관련성이 지나치게 떨어지는 상품이나 서비스에 연계됨으로써 지역광고 서비스의 품질을 떨어뜨릴 가능성이 있는 경우<br><br>
+									
+									[대표적 사례들]<br><br>
+									
+									- 지역과 상관 없는 인터넷 쇼핑몰 광고<br><br>
+									
+									- 지역과 상관 없는 보험/대출 광고 등<br><br>
+									
+									- 지역과 상관 없는 제품판매 광고 등<br><br>
+									
+									 
+									
+									④ 동일한 내용의 광고글을 반복해서 올리는 경우<br><br><br>
+									
+									 
+									
+									⑤ 지역광고의 효과가 현저히 떨어지는 경우<br><br>
+									
+									* 지역광고가 광고매체에서 노출되기는 하나 광고매체 이용자의 클릭율이 지나치게 낮은 경우<br><br><br>
+									
+									 
+									
+									⑥ 광고매체의 운영 주체가 정당하고 합리적인 이유를 근거로 자신의 광고매체에서의 지역광고 게재 제한 등을 요청하는 경우 <br><br><br>
+									
+									 
+									
+									2. 광고 심사 미승인 및 게재제한 절차<br><br>
+									
+									① 회사는 광고매체의 요청에 의해 일정한 지역광고의 미승인 또는 게재 제한 등을 하는 경우 회원에게 약관 제11조에 따른 방법으로 통지합니다.<br><br>
+									
+									② 광고매체의 요청에 의해 일정한 지역광고의 게재 제한을 하는 경우 원칙적으로 지역광고 게재 제한 등의 조치를 취하기 전에 회원에게 통지하며, 다만 광고매체가 긴급한 사정을 이유로 시급히 요청해 왔을 경우에는 부득이 게재 제한 등의 조치를 취한 후에 회원에게 통지할 수 있습니다.
+								</p>
+							</li>										
+						</ul>
+					</li>
+					<li class="item2"><a href="#" title="click here">지역광고 등록하는 방법을 알려주세요</a>
+						<ul>
+							<li class="subitem1">
+								<p id="p"> 
+									동네에서 가게를 운영하고 계신 사장님이신가요? 미니마켓에서 동네업체로 활동해보세요<br><br>
+
+									동네업체란?<br><br>
+									
+									동네업체는 동네 주민들과 동네에 계시는 소상공인 분들을 이어주는 서비스에요. 동네 주민분들은 이웃이 남긴 추천 후기를 확인하고 동네 곳곳의 좋은 가게들을 알게 되고 이용할 수 있는 공간이에요.<br><br>
+									
+									동네에서 가게, 업체를 운영하고 계신 분이라면 등록해서 내 가게 주변 이웃을 단골 고객으로 만들어보세요.<br><br><br>
+									
+									
+									
+									내 가게 주변 이웃들에게 가게를 알릴 수 있는 방법을 찾고 계신가요?<br><br>
+									
+									동네업체로 등록하시면 동네업체 홍보 목록 내에서 사용자의 홍보가 노출될 수 있어요.<br><br>
+									
+									게시글 작성시 개인 프로필이 아닌 등록해주신 업체 프로필로 표시되고 더 자세한 정보를 사용자에게 보여줄 수 있어요.<br><br><br>
+
+									어떻게 등록하나요?<br><br>
+									
+									동네업체 등록 절차는 아래와 같아요.<br><br>
+									
+									1. 상단의 "업체 홍보 메뉴" 를 클릭.<br><br>
+									
+									2. 하단에 업체 홍보하기를 눌러주세요.<br><br>
+									
+									3. 업체 정보를 상세히 입력해주시면 승인을 도와드려요.<br><br>
+									
+									4. 승인 이후부터 미니마켓에서 동네업체로 활동하실 수 있어요.
+								</p>
+							</li>	
+						</ul>
+					</li>
+					<li class="item5"><a href="#" title="click here">내가 등록한 동네업체 정보를 수정하고 싶어요</a>
+						<ul>
+							<li class="subitem1">
+								<p id="p"> 
+									[마이페이지] 에서 [내 홍보중인 아이템] 클릭 후 <br><br>
+									수정 버튼 혹은 삭제 버튼 클릭하면 완성 !
+								</p>
+							</li>	
+						</ul>
+					</li>
+					<li class="item6"><a href="#" title="click here">구인구직, 과외/클래스 모집 등의 게시글을 올려도 되나요?</a>
+						<ul>
+							<li class="subitem1">
+								<p id="p"> 
+									당근마켓은 동네의 연결(거래 및 모임 등)을 돕고, 권장하고 있습니다.<br><br>
+
+									구인구직, 과외/클래스 모집 게시글은 동네홍보 카테고리에 올리시면 되세요.<br><br><br>
+									
+									
+									
+									해당 카테고리에는 이런 글들을 올리실 수 있어요.<br><br>
+									
+									- 과외/클래스 모집 : 과외, 재능기부, 각종 클래스 모집 글 등<br><br>
+									
+									- 동네 구인구직 : 가사 도우미, 육아 도우미, 등하교 도우미, 반려동물 돌보미, 가게 아르바이트 모집 글 등<br><br><br>
+									
+									
+									
+									홈 목록 노출을 위해서는 지역광고 상품을 이용하셔야 합니다.
+								</p>
+							</li>	
+						</ul>
+					</li>
+				</ul> 
+				<a th:href="@{getQnaBoardCompanyList}">더 알아보러 갈사람?</a>
+			</div>
+			<!-- script for tabs -->
+			<script type="text/javascript">
+				$(function() {
+				
+					var menu_ul = $('.faq > li > ul'),
+						   menu_a  = $('.faq > li > a');
+					
+					menu_ul.hide();
+				
+					menu_a.click(function(e) {
+						e.preventDefault();
+						if(!$(this).hasClass('active')) {
+							menu_a.removeClass('active');
+							menu_ul.filter(':visible').slideUp('normal');
+							$(this).addClass('active').next().stop(true,true).slideDown('normal');
+						} else {
+							$(this).removeClass('active');
+							$(this).next().stop(true,true).slideUp('normal');
+						}
+					});
+				
+				});
+			</script>
+			<!-- script for tabs -->   
+		</div>
+	</div>
+<!-- //footer -->
+<div class="footer">		
+		<div class="footer-copy">
+			
+			<div class="container">
+				<p>© 2017 Super Market. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+			</div>
+		</div>
+		
+	</div>	
+	<div class="footer-botm">
+			<div class="container">
+				<div class="w3layouts-foot">
+					<ul>			
+						<li><a href="https://github.com/dk4750/mini_market" class="w3_agile_dribble"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="payment-w3ls">	
+					<img src="images/card.png" alt=" " class="img-responsive">
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+<!-- //footer -->	
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- top-header and slider -->
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+			$().UItoTop({ easingType: 'easeOutQuart' });
+								
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+<script src="js/minicart.min.js"></script>
+<script>
+	// Mini Cart
+	paypal.minicart.render({
+		action: '#'
+	});
+
+	if (~window.location.search.indexOf('reset=true')) {
+		paypal.minicart.reset();
+	}
+</script>
+<!-- main slider-banner -->
+<script src="js/skdslider.min.js"></script>
+<link href="css/skdslider.css" rel="stylesheet">
+<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
+						
+			jQuery('#responsive').change(function(){
+			  $('#responsive_wrapper').width(jQuery(this).val());
+			});
+			
+		});
+</script>
+<!-- //main slider-banner -->  
+</body>
+</html>

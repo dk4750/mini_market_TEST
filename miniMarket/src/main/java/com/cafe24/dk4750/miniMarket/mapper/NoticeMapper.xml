@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.NoticeMapper">
+	<!-- 글의 총갯수 -->
+	<select id="totalNotice" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM mini_market_notice
+	</select>
+	
+	<!-- 검색어의 총 갯수 -->
+	<select id="totalNoticeBySearch" resultType="int" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM mini_market_notice
+		WHERE (notice_title LIKE CONCAT('%', #{searchWord}, '%')
+		OR notice_content LIKE CONCAT('%', #{searchWord}, '%'))		
+	</select>
+	
+	<!-- 공지사항 목록 출력 -->
+	<select id="selectNoticeList" resultType="com.cafe24.dk4750.miniMarket.vo.Notice" parameterType="Map">
+		SELECT
+			notice_no AS noticeNo,
+			notice_title AS noticeTitle,
+			notice_date AS noticeDate,
+			admin_name AS adminName
+		FROM mini_market_notice
+		WHERE (notice_title LIKE CONCAT('%', #{searchWord}, '%')
+		OR notice_content LIKE CONCAT('%', #{searchWord}, '%'))
+		ORDER BY notice_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 공지사항 자세히 보기 -->
+	<select id="selectNoticeOne" resultType="com.cafe24.dk4750.miniMarket.vo.Notice" parameterType="int">
+		SELECT
+			no.notice_no AS noticeNo,
+			no.notice_title AS noticeTitle,
+			no.notice_content AS noticeContent,
+			no.notice_date AS noticeDate,
+			no.admin_name AS adminName
+		FROM mini_market_notice AS no
+		WHERE no.notice_no = #{noticeNo}
+	</select>
+	
+	<!-- 공지사항 입력하기 -->
+	<insert id="insertNotice" parameterType="com.cafe24.dk4750.miniMarket.vo.Notice">
+		INSERT INTO mini_market_notice (
+			notice_title,
+			notice_content,
+			notice_date,
+			admin_name
+			) VALUES (
+			#{noticeTitle},
+			#{noticeContent},
+			NOW(),
+			#{adminName}
+			)
+	</insert>
+	
+	<!-- 공지사항 수정하기 -->
+	<update id="updateNotice" parameterType="com.cafe24.dk4750.miniMarket.vo.Notice">
+		UPDATE mini_market_notice
+			SET
+				notice_title = #{noticeTitle},
+				notice_content = #{noticeContent},
+				notice_date = NOW()
+			WHERE notice_no = #{noticeNo}
+	</update>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.QnaBoardCompanyMapper">
+	
+	<!-- QnA 삭제시 안보이게 Active 수정 -->
+	<update id="updateQnaBoardCompanyActive" parameterType="int">
+		UPDATE
+			mini_market_qna_board_company
+		SET qna_board_company_active = '1'
+		WHERE qna_board_company_no = #{qnaBoardCompanyNo}
+	</update>
+	<!-- 업체 QnA 수정 -->
+	<update id="updateQnaBoardCompany" parameterType="com.cafe24.dk4750.miniMarket.vo.QnaBoardCompany">
+		UPDATE
+			mini_market_qna_board_company
+		SET qna_board_company_title = #{qnaBoardCompanyTitle},
+			qna_board_company_content = #{qnaBoardCompanyContent},
+			qna_board_company_date = now()
+		WHERE qna_board_company_no = #{qnaBoardCompanyNo}
+	</update>
+	<!-- 업체 QnA 입력 -->
+	<insert id="insertQnaBoardCompany" parameterType="com.cafe24.dk4750.miniMarket.vo.QnaBoardCompany">
+		INSERT INTO mini_market_qna_board_company(
+			company_unique_no,
+			qna_board_company_title,
+			qna_board_company_content,
+			qna_board_company_date
+		) VALUES (
+			#{companyUniqueNo},
+			#{qnaBoardCompanyTitle},
+			#{qnaBoardCompanyContent},
+			now()
+		)
+			
+	</insert>
+	<!-- 상세보기 페이지 -->
+	<select id="selectQnaBoardCompanyOne" parameterType="int" resultType="com.cafe24.dk4750.miniMarket.vo.QnaBoardCompanyAndCompany">
+		SELECT
+			q.qna_board_company_no as qnaBoardCompanyNo,
+			c.company_id as companyId,
+			q.qna_board_company_title as qnaBoardCompanyTitle,
+			q.qna_board_company_content as qnaBoardCompanyContent,
+			q.qna_board_company_date as qnaBoardCompanyDate,
+			q.qna_board_company_active as qnaBoardCompanyActive
+		FROM mini_market_qna_board_company AS q
+		INNER JOIN mini_market_company c
+		ON q.company_unique_no = c.company_unique_no
+		WHERE q.qna_board_company_no = #{qnaBoardCompanyNo}
+	</select>
+	<!-- QnA 검색 리스트 갯수 -->
+	<select id="totalQnaBoardCompanyBySearch" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			mini_market_qna_board_company
+		WHERE
+			qna_board_company_title LIKE CONCAT('%',#{searchWord},'%')
+	</select>
+	<!-- 총 리스트 갯수(페이징) -->
+	<select id="getTotalRow" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM mini_market_qna_board_company
+	</select>
+	<!-- QnA리스트 페이징 -->
+	<select id="selectQnaBoardCompanyList" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.QnaBoardCompanyAndCompany">
+		SELECT
+			q.qna_board_company_no as qnaBoardCompanyNo,
+			c.company_id as companyId,
+			q.qna_board_company_title as qnaBoardCompanyTitle,
+			q.qna_board_company_date as qnaBoardCompanyDate,
+			q.qna_board_company_active as qnaBoardCompanyActive
+		FROM mini_market_qna_board_company AS q
+		INNER JOIN mini_market_company c
+		ON q.company_unique_no = c.company_unique_no
+		WHERE q.qna_board_company_title LIKE CONCAT('%', #{searchWord}, '%')
+		ORDER BY q.qna_board_company_active ASC, q.qna_board_company_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+</mapper>

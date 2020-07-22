@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.MemberReviewMapper">
+	<!-- 리뷰 리스트 출력 -->
+	<select id="selectReviewAll" parameterType="String" resultType="com.cafe24.dk4750.miniMarket.vo.MemberReview">
+		SELECT
+			member_review_content AS memberReviewContent,
+			member_review_date AS memberReviewDate
+		FROM mini_market_member_review
+		WHERE member_unique_no = #{memberUnique_no}
+	</select>
+	
+	<!-- 인설트 리뷰 -->
+	<insert id="insertReview" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberReview">
+		INSERT INTO mini_market_member_review(
+				member_review_content,
+				member_id,
+				member_unique_no,
+				member_item_no,
+				member_review_date
+			) VALUES (
+				#{memberReviewContent},
+				#{memberId},
+				#{memberUniqueNo},
+				#{memberItemNo},
+				NOW()			
+			)
+	</insert>
+	
+	<!-- 리뷰체크  -->
+	<select id="reviewCheck" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberReview" resultType="int">
+		SELECT COUNT(*)
+		FROM mini_market_member_review
+		WHERE member_id = #{memberId}
+		AND member_unique_no = #{memberUniqueNo}
+		AND member_item_no = #{memberItemNo}
+	</select>
+</mapper>

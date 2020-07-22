@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.ReportMemberByCompanyMapper">
+	<!-- 업체 이름 불러오기 -->
+	<select id="selectCompanyName" parameterType="String" resultType="String">
+		SELECT 
+			company_name
+		FROM 
+			mini_market_company
+		WHERE 
+			company_unique_no = #{companyUniqueNo}
+	</select>
+	<!-- 신고 상태 수정 -->
+	<update id="updateReportMemberByCompanyState" parameterType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByCompany">
+		UPDATE mini_market_report_m_by_c
+		SET report_state = #{reportState}
+		WHERE report_no = #{reportNo}
+	</update>
+	<!-- totalList Count -->
+	<select id="getTotalRow" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM mini_market_report_m_by_c
+		WHERE report_state LIKE CONCAT('%',#{reportState},'%')
+	</select>
+	<!-- 신고 totalList -->
+	<select id="selectReportMemberByCompanyAll" parameterType="Map" resultType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByCompanyAndCompany">
+		SELECT
+			r.report_no AS reportNo,
+			r.report_title AS reportTitle,
+			r.report_content AS reportContent,
+			r.member_id AS memberId,
+			r.company_unique_no AS companyUniqueNo,
+			c.company_id AS companyId,
+			r.report_state AS reportState,
+			r.report_date AS reportDate
+		FROM mini_market_report_m_by_c r
+		INNER JOIN mini_market_company c
+		ON r.company_unique_no = c.company_unique_no
+		WHERE r.report_state LIKE CONCAT('%',#{reportState},'%')
+		ORDER BY r.report_state ASC,
+				 r.report_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	<!-- 신고 상세 페이지 -->
+	<select id="selectReportMemberByCompanyOne" parameterType="int" resultType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByCompanyAndCompany">
+		SELECT
+			r.report_no AS reportNo,
+			r.report_title AS reportTitle,
+			r.report_content AS reportContent,
+			r.member_id AS memberId,
+			r.company_unique_no AS companyUniqueNo,
+			c.company_id AS companyId,
+			r.report_state AS reportState,
+			r.report_date AS reportDate
+		FROM mini_market_report_m_by_c r
+		INNER JOIN mini_market_company c
+		ON r.company_unique_no = c.company_unique_no
+		WHERE r.report_no = #{reportNo}
+	</select>
+	<!-- 신고 하기 접수 -->
+	<insert id="insertReportMemberByCompany" parameterType="com.cafe24.dk4750.miniMarket.vo.ReportMemberByCompany">
+		INSERT INTO mini_market_report_m_by_c(
+			report_title,
+			report_content,
+			member_id,
+			company_unique_no,
+			report_date
+		) VALUES (
+			#{reportTitle},
+			#{reportContent},
+			#{memberId},
+			#{companyUniqueNo},
+			now()
+		)
+	</insert>
+</mapper>

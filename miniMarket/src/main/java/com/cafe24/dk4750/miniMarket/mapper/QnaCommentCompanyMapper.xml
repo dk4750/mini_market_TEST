@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.QnaCommentCompanyMapper">
+	<!-- 댓글 삭제 -->
+	<delete id="deletQnaCommentCompany" parameterType="int">
+		DELETE
+		FROM mini_market_qna_comment_company
+		WHERE qna_comment_company_no = #{qnaCommentCompanyNo}
+	</delete>
+	<!-- 댓글 추가 -->
+	<insert id="insertQnaCommentCompany" parameterType="com.cafe24.dk4750.miniMarket.vo.QnaCommentCompany">
+	   INSERT INTO 
+	      mini_market_qna_comment_company(
+	         qna_board_company_no,
+	         qna_comment_company,
+	         qna_comment_company_date,
+	         admin_id
+	         )
+	      VALUE(
+	         #{qnaBoardCompanyNo},
+	         #{qnaCommentCompany},
+	         NOW(),
+	         #{adminId}
+	         )
+	</insert>
+	  <!-- 댓글 리스트 -->
+	<select id="selectQnaCommentCompanyList" parameterType="java.util.Map" resultType="com.cafe24.dk4750.miniMarket.vo.QnaCommentCompany">
+	   SELECT
+	      qna_comment_company_no AS qnaCommentCompanyNo,
+	      qna_board_company_no AS qnaBoardCompanyNo,
+	      qna_comment_company AS qnaCommentCompany,
+	      qna_comment_company_date AS qnaCommentCompanyDate,
+	      admin_id AS adminId
+	   FROM
+	      mini_market_qna_comment_company
+	   WHERE
+	      qna_board_company_no = #{qnaBoardCompanyNo}
+	   ORDER BY 
+	   qna_comment_company_date DESC
+	   LIMIT #{beginRow} , #{rowPerPage}
+	</select>
+	<!-- 댓글 총합 수 구하기 -->
+	<select id="getTotalRow" resultType="int">
+	   SELECT
+	      COUNT(*)
+	   FROM
+	      mini_market_qna_comment_company
+	</select>
+</mapper>

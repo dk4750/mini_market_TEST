@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Chat</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<!------ Include the above in your HEAD tag ---------->
+<style>
+				body,html{
+			height: 100%;
+			margin: 0;
+			background: #FFD100;
+		}
+
+		.chat{
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+		.card{
+			height: 500px;
+			border-radius: 15px !important;
+			background-color: rgba(0,0,0,0.4) !important;
+		}
+		.contacts_body{
+			padding:  0.75rem 0 !important;
+			overflow-y: auto;
+			white-space: nowrap;
+		}
+		.msg_card_body{
+			overflow-y: auto;
+		}
+		.card-header{
+			border-radius: 15px 15px 0 0 !important;
+			border-bottom: 0 !important;
+		}
+	 .card-footer{
+		border-radius: 0 0 15px 15px !important;
+			border-top: 0 !important;
+	}
+		.container{
+			align-content: center;
+		}
+		.search{
+			border-radius: 15px 0 0 15px !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+		}
+		.search:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.type_msg{
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+			height: 60px !important;
+			overflow-y: auto;
+		}
+			.type_msg:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.attach_btn{
+	border-radius: 15px 0 0 15px !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.send_btn{
+	border-radius: 0 15px 15px 0 !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.search_btn{
+			border-radius: 0 15px 15px 0 !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.contacts{
+			list-style: none;
+			padding: 0;
+		}
+		.contacts li{
+			width: 100% !important;
+			padding: 5px 10px;
+			margin-bottom: 15px !important;
+		}
+	.active{
+			background-color: rgba(0,0,0,0.3);
+	}
+		.user_img{
+			height: 70px;
+			width: 70px;
+			border:1.5px solid #f5f6fa;
+		
+		}
+		.user_img_msg{
+			height: 40px;
+			width: 40px;
+			border:1.5px solid #f5f6fa;
+		
+		}
+	.img_cont{
+			position: relative;
+			height: 70px;
+			width: 70px;
+	}
+	.img_cont_msg{
+			height: 40px;
+			width: 40px;
+	}
+	.online_icon{
+		position: absolute;
+		height: 15px;
+		width:15px;
+		background-color: #4cd137;
+		border-radius: 50%;
+		bottom: 0.2em;
+		right: 0.4em;
+		border:1.5px solid white;
+	}
+	.offline_icon{
+		position: absolute;
+		height: 15px;
+		width:15px;
+		border-radius: 50%;
+		bottom: 0.2em;
+		right: 0.4em;
+		border:1.5px solid white;
+		background-color: #c23616 !important;
+	}
+	.user_info{
+		
+	}
+	.user_info span{
+		font-size: 20px;
+		color: white;
+	}
+	.user_info p{
+	font-size: 10px;
+	color: rgba(255,255,255,0.6);
+	}
+	.video_cam{
+		margin-left: 50px;
+		margin-top: 5px;
+	}
+	.video_cam span{
+		color: white;
+		font-size: 20px;
+		cursor: pointer;
+		margin-right: 20px;
+	}
+	.msg_cotainer{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: 10px;
+		border-radius: 25px;
+		background-color: #82ccdd;
+		padding: 10px;
+		position: relative;
+	}
+	.msg_cotainer_send{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-right: 10px;
+		border-radius: 25px;
+		background-color: #78e08f;
+		padding: 10px;
+		position: relative;
+	}
+	.msg_time{
+		position: absolute;
+		left: 0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	.msg_time_send{
+		position: absolute;
+		right:0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	#href {
+	pointer-events: none;
+	cursor: default;
+	color: black;
+	}
+	.msg_head{
+		position: relative;
+	}
+	#action_menu_btn{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+	}
+	.action_menu{
+		z-index: 1;
+		position: absolute;
+		padding: 15px 0;
+		background-color: rgba(0,0,0,0.5);
+		color: white;
+		border-radius: 15px;
+		top: 30px;
+		right: 15px;
+		display: none;
+	}
+	.action_menu ul{
+		list-style: none;
+		padding: 0;
+	margin: 0;
+	}
+	.action_menu ul li{
+		width: 100%;
+		padding: 10px 15px;
+		margin-bottom: 5px;
+	}
+	.action_menu ul li i{
+		padding-right: 10px;
+	
+	}
+	.action_menu ul li:hover{
+		cursor: pointer;
+		background-color: rgba(0,0,0,0.2);
+	}
+	@media(max-width: 576px){
+	.contacts_card{
+		margin-bottom: 15px !important;
+	}
+	}
+		</style>
+	</head>
+	<!--Coded With Love By Mutiullah Samim-->
+	<body>
+		<div class="container-fluid h-100">
+			<div class="row justify-content-center h-100">
+				<div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
+					<div class="card-header">
+						<h2 class="text-center text-light">채팅하기</h2>
+					</div>
+					<div class="card-body contacts_body">
+						<ui class="contacts">
+						<li class="active" th:each="list : ${list}">
+							<div class="d-flex bd-highlight">
+								<!-- 판매중 -->
+								<div th:if="${list.profilePick != list.profilePic}">
+									<div class="img_cont" th:if="${profilePic == list.profilePic}">
+										<img th:src="@{/images/}+${list.profilePick}" class="rounded-circle user_img">
+										<span th:class="${list.chatroomActive} == connect ? online_icon : offline_icon"></span>
+									</div>
+									<!-- 구매중 -->
+									<div class="img_cont" th:if="${profilePic == list.profilePick}">
+										<img th:src="@{/images/}+${list.profilePic}" class="rounded-circle user_img">
+										<span th:class="${list.chatroomActive} == connect ? online_icon : offline_icon"></span>
+									</div>
+								</div>
+								<div th:unless="${list.profilePick != list.profilePic}">
+									
+									<div class="img_cont">
+										<img th:src="@{/images/}+${list.profilePick}" class="rounded-circle user_img">
+										<span th:class="${list.chatroomActive} == connect ? online_icon : offline_icon"></span>
+									</div>
+								</div>
+								
+								<div class="user_info">
+									<div th:if="${list.chatroomActive} == connect" style="margin-left: 20px; "id="user">
+										<a th:href="@{chatroom(chatroomNo = ${list.chatroomNo})}" th:text="${list.memberId == memberId} ? ${list.nickname} : ${list.memberNickname}" target="_blank" onclick="window.open(this.href,'_blank','width=600,height=850,left=600px,top=100px, scrollbars=yes');return false;"></a>
+									</div>
+									<div th:unless="${list.chatroomActive} == connect" style="margin-left: 20px;" id="user">
+									<a href="#" id="href" th:text="${list.memberId == memberId} ? ${list.nickname} : ${list.memberNickname}" target="_blank" style="color: rgba(255,255,255,0.6);" onclick="window.open(this.href,'_blank','width=600,height=850,left=600px,top=100px, scrollbars=yes');return false;"></a>
+									</div>
+									<div th:if="${list.chatroomActive} == disconnect" class="right" style="margin-left: 20px; "><a th:href="@{chatList(chatroomNo = ${list.chatroomNo})}" target="_blank" onclick="window.open(this.href,'_blank','width=600,height=850,left=600px,top=100px, scrollbars=yes');return false;">내역보기</a></div>
+									<div th:unless="${list.chatroomActive} == disconnect" class="right" style="margin-left: 20px;  color: rgba(255,255,255,0.6);">내역보기</div>
+									
+									<div class="right" style="margin-left: 300px;">
+										<p th:text="'상품 제목 :'+ ${list.memberItemTitle}"></p>
+										<div th:if="${list.memberUniqueNo == memberUniqueNo} AND ${list.chatroomActive} == connect AND ${list.memberItemState} == 판매중" ><p>판매중</p></div>
+							            <div th:if="${list.memberUniqueNo == memberUniqueNo} AND ${list.chatroomActive} == connect AND ${list.memberItemState} == 판매완료"><p>판매완료</p></div>
+							            <div th:if="${list.memberUniqueNo == memberUniqueNo} AND ${list.chatroomActive} == connect AND ${list.memberItemState} == 상품삭제"><p>상품삭제</p></div>
+							            <div th:if="${list.memberUniqueNo == memberUniqueNo} AND ${list.chatroomActive} != connect AND ${list.memberItemState} == 판매중"><p>판매중</p></div>   
+							            <div th:if="${list.memberUniqueNo == memberUniqueNo} AND ${list.chatroomActive} != connect AND ${list.memberItemState} == 판매완료"><p>요청대기</p></div>   
+							            <div th:if="${list.memberUniqueNo == memberUniqueNo} AND ${list.chatroomActive} != connect AND ${list.memberItemState} == 상품삭제"><p>상품삭제</p></div>   
+							            <div th:if="${list.memberUniqueNo != memberUniqueNo} AND ${list.chatroomActive} == connect AND ${list.memberItemState} == 판매중"><p>판매중</p></div>   
+							            <div th:if="${list.memberUniqueNo != memberUniqueNo} AND ${list.chatroomActive} == connect AND ${list.memberItemState} == 판매완료"><p>판매완료</p></div>   
+							            <div th:if="${list.memberUniqueNo != memberUniqueNo} AND ${list.chatroomActive} == connect AND ${list.memberItemState} == 상품삭제"><p>상품삭제</p></div>   
+							            <div th:if="${list.memberUniqueNo != memberUniqueNo} AND ${list.chatroomActive} != connect AND ${list.memberItemState} == 판매중"><a th:href="@{modifyChatroomActive(chatroomNo = ${list.chatroomNo})}">채팅연결</a></div>   
+							            <div th:if="${list.memberUniqueNo != memberUniqueNo} AND ${list.chatroomActive} != connect AND ${list.memberItemState} == 판매완료"><p>판매완료</p></div>   
+							            <div th:if="${list.memberUniqueNo != memberUniqueNo} AND ${list.chatroomActive} != connect AND ${list.memberItemState} == 상품삭제"><p>상품삭제</p></div>
+									</div>
+									
+								</div>
+								
+							</div>
+						</li>
+						</ui>
+					</div>
+					<div class="card-footer"></div>
+				</div></div>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function() {
+	       
+	    })
+	</script>
+</html>

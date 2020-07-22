@@ -1,0 +1,845 @@
+<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Super Market an Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Login :: w3layouts</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Super Market Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+</head>
+<body>
+<!-- header -->
+	<div class="agileits_header">
+		<div class="container">
+			<div class="w3l_offers">
+			<p><a th:href="@{/about}">About us</a></p>
+			</div>
+			<div class="agile-login">
+				<ul>
+					<li th:if="${session.loginMember != null }">
+						<a th:href="@{/logoutMember}">로그아웃</a>
+					</li>
+					<li th:if="${session.loginCompany != null }">
+						<a th:href="@{/logoutCompany}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginAdmin != null }">
+						<a th:href="@{/logoutAdmin}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginMember != null}">
+						<a th:href="@{/memberMyPage}">마이페이지(회원)</a>
+					</li>
+					<li th:if="${session.loginCompany != null}">
+						<a th:href="@{/companyMyPage}">마이페이지(업체)</a>
+					</li>					
+					<li	th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/loginMemberAndCompany}">로그인</a>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/addMemberAndCompany}">회원가입</a>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">QnA<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getQnaBoardMemberHtml}">멤버 자주 묻는 질문</a></li>
+											<li><a th:href="@{/getQnaBoardCompany}">업체 자주 묻는 질문</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">공지사항<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getNoticeList}">공지사항</a></li>
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addNotice}">공지사항작성</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{loginAdmin}">관리자</a>
+					</li>
+				</ul>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember != null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a th:href="@{/getMyLikeItem}">
+					<button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember == null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a>
+					<button class="w3view-cart" type="button" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+
+	<div class="logo_products">
+		<div class="container">
+		<div class="w3ls_logo_products_left1">
+			</div>
+		<div class="w3ls_logo_products_left">			
+			</div>
+			<div class="w3ls_logo_products_left">
+				<h1><a th:href="@{/index}">Mini Market</a></h1>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //header -->
+<!-- navigation -->
+	<div class="navigation-agileits">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header nav_2">
+					<button type="button"
+						class="navbar-toggle collapsed navbar-toggle1"
+						data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+					<ul class="nav navbar-nav">
+						<li class="active"><a th:href="@{/index}" class="act">Home</a></li>
+						<!-- Mega Menu -->
+							<li class="dropdown"  th:if="${session.loginMember} != null"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<li class="dropdown"  th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginCompany != null || session.loginMember != null}"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+						<li th:if="${session.loginAdmin == null && session.loginCompany == null && session.loginMember!=null}"><!-- 채팅방 버튼 -->
+							<a th:href="@{/chatroomList}" onclick="window.open(this.href,'_blank','width=600,height=850,left=400px,top=200px, scrollbars=yes');return false;">채팅방</a>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">회원 관리<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getAdminMemberList}">회원</a></li>
+											<li><a th:href="@{getAdminCompanyList}">업체</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">신고 리스트<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getReportMemberByMemberList}">회원 -> 회원</a></li>
+											<li><a th:href="@{getReportMemberByMemberItemList}">회원 -> 회원 아이템</a></li>
+											<li><a th:href="@{getReportMemberByCompanyList}">회원 -> 업체</a></li>
+											<li><a th:href="@{getReportMemberByCompanyItemList}">회원 -> 업체 아이템</a></li>
+											<li><a th:href="@{getReportCompanyByMemberList}">업체 -> 회원 댓글</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">카테고리 생성<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addCategory}">카테고리 생성</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+<!-- //navigation -->
+	<!-- //top-header and slider -->
+	<!-- top-brands -->
+	<div class="top-brands">
+		<div class="container">
+		<h2>신고하기</h2>
+			<div class="grid_3 grid_5">
+				<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+					<ul id="myTab" class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a href="#expeditions" id="expeditions-tab" role="tab" data-toggle="tab" aria-controls="expeditions" aria-expanded="true">게시물 신고</a></li>
+						<li role="presentation"><a href="#tours" role="tab" id="tours-tab" data-toggle="tab" aria-controls="tours">멤버 신고</a></li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="expeditions" aria-labelledby="expeditions-tab">
+							<div align="center">
+								<h3>' '게시글을 신고하는 이유를 선택해주세요</h3>
+								<br><br>
+							<form method="post" action="/memberByMemberItemReport" id="memberByMemberItemReportForm">
+							<div id="title">
+                              <div id="title1">
+                                 <button type="button" class="titlebtn" value="판매금지 품목이에요" name="reportTitle">판매금지 품목이에요</button>
+                              </div>
+                              <div id="title2">
+                                 <button type="button" class="titlebtn"value="중고거래 게시글이 아니에요" name="reportTitle">중고거래 게시글이 아니에요</button>
+                              </div>
+                              <div id="title3">
+                                 <button type="button" class="titlebtn" value="전문 판매업자 같아요" name="reportTitle">전문 판매업자 같아요</button>
+                              </div>
+                              <div id="title4">
+                                 <button type="button" class="titlebtn" value="기타 사유 선택" name="reportTitle">기타 사유 선택</button>
+                              </div>
+                              <input type="hidden" id="reportTitle" name="reportTitle">
+                          	 </div>
+                           		<div id="content1">
+	                              <div>
+	                                 <button type="button" class="btnContent" value="재난지원금 / 쌀 꾸러미 거래" name="reportContent">재난지원금 / 쌀 꾸러미 거래</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent"value="반려동물 거래" name="reportContent">반려동물 거래</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="주류 / 담배 판매" name="reportContent">주류 / 담배 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="상업적인 핸드메이드 판매" name="reportContent">상업적인 핸드메이드 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="화장품 샘플 판매" name="reportContent">화장품 샘플 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="청소년 유해물 / 음란물 판매" name="reportContent">청소년 유해물 / 음란물 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="가품 / 이미테이션 판매" name="reportContent">가품 / 이미테이션 판매래</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="의약품 / 의료기기 판매" name="reportContent">의약품 / 의료기기 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="콘택트 렌즈 / 도수 있는 안경 판매" name="reportContent">콘택트 렌즈 / 도수 있는 안경 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="수제 음식 / 미인증 건강기능식품 판매" name="reportContent">수제 음식 / 미인증 건강기능식품 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="조건부 무료나눔" name="reportContent">조건부 무료나눔</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="기타 물품" name="reportContent">기타 물품</button>
+	                              </div>
+	                              <input type="hidden" id="reportContent" name="reportContent">
+	                           </div>
+	                           <div id="content2">
+	                              <div>
+	                                 <button type="button" class="btnContent" value="지역업체 소개 / 광고" name="reportContent">지역업체 소개 / 광고</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="부동산 거래" name="reportContent">부동산 거래</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="중고차 / 오토바이 판매" name="reportContent">중고차 / 오토바이 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="농수산물 판매" name="reportContent">농수산물 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="구인구직" name="reportContent">구인구직</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="과외 / 클래스 모집" name="reportContent">과외 / 클래스 모집</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="전시 / 공연 / 행사" name="reportContent">전시 / 공연 / 행사</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="일반 게시글(잡담, 질문 등)" name="reportContent">일반 게시글(잡담, 질문 등)</button>
+	                              </div>
+	                              <input type="hidden" id="reportContent" name="reportContent">
+	                           </div>
+	                           <div id="content3">
+	                              <div>   
+	                                 <button type="button" class="btnContent" value="매장이 있는 판매업자" name="reportContent">매장이 있는 판매업자</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="인터넷 쇼핑몰 판매업자" name="reportContent">인터넷 쇼핑몰 판매업자</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="대량 주문 판매" name="reportContent">대량 주문 판매</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="점포 재고 정리" name="reportContent">점포 재고 정리</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="해외 구매 대행" name="reportContent">해외 구매 대행</button>
+	                              </div>
+	                              <div>
+	                                 <button type="button" class="btnContent" value="기타" name="reportContent">기타</button>
+	                              </div>
+	                              <input type="hidden" id="reportContent" name="reportContent">
+                           </div>
+                           <div id="content4">
+                              <div>
+                                 <button type="button" class="btnContent" value="판매 가치가 없는 상품" name="reportContent">판매 가치가 없는 상품</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="중복 게시글" name="reportContent">중복 게시글</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="잘못된 카테고리" name="reportContent">잘못된 카테고리</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="상품 설명 부족" name="reportContent">상품 설명 부족</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="마스크 판매 정책 위반" name="reportContent">마스크 판매 정책 위반</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="당근마켓에서 구매 후 비싸게 재판매" name="reportContent">당근마켓에서 구매 후 비싸게 재판매</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="거래 / 환불 분쟁" name="reportContent">거래 / 환불 분쟁</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="사기 신고" name="reportContent">사기 신고</button>
+                              </div>
+                              <div>
+                                 <button type="button" class="btnContent" value="신고 항목 제안" name="reportContent">신고 항목 제안</button>
+                              </div>
+                              <input type="hidden" id="reportContent" name="reportContent">
+                             
+                           </div>
+                           		 <div id="desc">
+                           			<h3>신고 항목 제안</h3>
+                           			<label>앞의 신고 항목에서 적당한 사유를 찾지 못하셨나요?<br>원하시는 신고항목이 없는 경우 신고항목을 제안해주세요.<br>(내부적으로 검토하여 신고 항목 개선에 활용됩니다.)</label>
+                           		</div>
+                           		<div id="memoId">	
+                           		</div>
+									<div>
+										<button type="button" id="preBtn">이전</button>
+										<button type="button" id="submitBtn">전송</button>
+									</div>
+									<input type="hidden" name="memberItemNo" th:value="${memberItemNo}">
+								</form>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane fade" id="tours" aria-labelledby="tours-tab">
+							<div align="center">
+								<h3>멤버  [<label th:text="${memberNickname}"></label>]를 신고하는 이유를 선택해주세요</h3>
+								<br><br>
+								<form method="post" action="/memberByMemberReport" id="memberByMemberReportForm">
+									<div id="merberTitle">
+                              			<div id="merberTitle1">
+                                			<button type="button" class="memberTitlebtn btn btn-warning " value="전문 판매업자 같아요" name="reportTitle">전문 판매업자 같아요</button>
+                              			</div>
+                              			<div id="merberTitle2">
+                                			<button type="button" class="memberTitlebtn btn btn-warning" value="비매너 사용자예요" name="reportTitle">비매너 사용자예요</button>
+                              			</div>
+                              			<div id="merberTitle3">
+                                			<button type="button" class="memberTitlebtn btn btn-warning" value="욕설을 해요" name="reportTitle">욕설을 해요</button>
+                              			</div>
+                              			<div id="merberTitle4">
+                                			<button type="button" class="memberTitlebtn btn btn-warning" value="거래/환불 분쟁 신고" name="reportTitle">거래 /환불 분쟁 신고</button>
+                              			</div>
+                              			<div id="merberTitle5">
+                                			<button type="button" class="memberTitlebtn btn btn-warning" value="다른 문제가 있어요" name="reportTitle">다른 문제가 있어요</button>
+                              			</div>
+                              			<input type="hidden" id="memberHiddenTitle" name="reportTitle">
+                          	 		</div>
+                          	 		<div id="memberNoManner">
+                          	 			<label>불편했던 점을 선택해 주세요.(최대 5개)</label><br>
+                          	 			<input type="checkbox" value="구매 가격보다 비싼 가격으로 판매해요" name="reportContent">구매 가격보다 비싼 가격으로 판매해요<br>
+								        <input type="checkbox" value="너무 늦은 시간이나 새벽에 연락해요"  name="reportContent">너무 늦은 시간이나 새벽에 연락해요<br>
+								        <input type="checkbox" value="구매의사 없이계속 찔러봐요" name="reportContent">구매의사 없이계속 찔러봐요<br>
+								        <input type="checkbox" value="질문해도 답이 없어요" name="reportContent">질문해도 답이 없어요<br>
+								        <input type="checkbox" value="무조건 택배거래만 하려고 해요" name="reportContent"> 무조건 택배거래만 하려고 해요<br>
+								        <input type="checkbox" value="상품 가치없는 물건을 팔아요"  name="reportContent">상품 가치없는 물건을 팔아요<br>
+								        <input type="checkbox" value="차에서 내리지도 않고 창문만 열고 거래하려고 해요"  name="reportContent">차에서 내리지도 않고 창문만 열고 거래하려고 해요<br>
+								        <input type="checkbox" value="거래 약속을 하고 다른 사람한테 팔았어요"  name="reportContent">거래 약속을 하고 다른 사람한테 팔았어요<br>
+								        <input type="checkbox" value="시간약속을 안 지켜요 "  name="reportContent"> 시간약속을 안 지켜요<br>
+								        <input type="checkbox" value="상품 설명에 중요한 정보가 누락됐어요"  name="reportContent">상품 설명에 중요한 정보가 누락됐어요<br>
+								        <input type="checkbox" value="상품 상태가 설명과 달라요" name="reportContent">상품 상태가 설명과 달라요<br>
+								        <input type="checkbox" value="무리하게 가격을 깎아요" name="reportContent">무리하게 가격을 깎아요<br>
+								        <input type="checkbox" value="불친절해요" name="reportContent">불친절해요<br>
+								        <input type="checkbox" value="예약만 해놓고 거래 시간을 명확하게 알려주지 않아요" name="reportContent">예약만 해놓고 거래 시간을 명확하게 알려주지 않아요<br>
+								        <input type="checkbox" value="거래 시간과 장소를 정한 후 연락이 안돼요" name="reportContent">거래 시간과 장소를 정한 후 연락이 안돼요<br>
+								        <input type="checkbox" value="약속 장소에 나타나지 않았어요" name="reportContent">약속 장소에 나타나지 않았어요<br>
+								        <input type="checkbox" value="거래 시간과 장소를 정한 후 거래 직전 취소했어요" name="reportContent">거래 시간과 장소를 정한 후 거래 직전 취소했어요<br>
+                          	 		</div>
+                          	 		<div id="menuOneDesc">
+                           				<h3>전문 판매업자 같아요</h3>
+                           			</div>
+                           			<div id="menuTwoDesc">
+                           				<h3>욕설을 해요</h3>
+                           			</div>
+                           			<div id="menuThreeDesc">
+                           				<h3>거래/환불 분쟁 신고</h3>
+                           				<br>
+                           			</div>
+                           			<div id="menuFourDesc">
+                           				<h3>다른 문제가 있어요</h3>
+                           				<br>
+                           			</div>
+                          	 		<div id="memberContent">
+                          	 			
+                          	 		</div>
+                          	 		<div id="tradeContent">
+                          	 			
+                          	 		</div>
+                          	 		<div>
+                          	 			<button type="button" id="memPreBtn">이전</button>
+                          	 			<button type="button" id="memSubmitBtn">전송</button>
+                          	 			<input type="hidden" name="memberUniqueNo" th:value="${memberUniqueNo}">
+                          	 		</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>			
+			</div>
+		</div>
+	</div>
+<!-- //top-brands -->
+<!-- //footer -->
+<div class="footer">		
+		<div class="footer-copy">
+			
+			<div class="container">
+				<p>© 2017 Super Market. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+			</div>
+		</div>
+		
+	</div>	
+	<div class="footer-botm">
+			<div class="container">
+				<div class="w3layouts-foot">
+					<ul>			
+						<li><a href="https://github.com/dk4750/mini_market" class="w3_agile_dribble"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="payment-w3ls">	
+					<img src="images/card.png" alt=" " class="img-responsive">
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+<!-- //footer -->	
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+<!-- top-header and slider -->
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		//title 값을 저장할 변수
+		let title = "";
+		//content 값을 저장할 변수
+		let content = "";
+		// textarea를 불러올 변수
+		let memo = '<textarea rows="10" cols="70" name="reportMemo" placeholder="신고 항목 제안 내용을 입력해주세요.." id="reportMemo"></textarea>';
+		// textarea의 value값을 저장할 변수
+		let memoVal = "";
+        $(document).ready(function() {
+            //title의 메뉴만 보여주고 나머지는 다 숨김
+            $("#title").show();
+            $("#content1").hide();
+            $("#content2").hide();
+            $("#content3").hide();
+            $("#content4").hide();
+            $("#memo").hide();
+            $("#preBtn").hide();
+            $("#submitBtn").hide();
+            $("#desc").hide();
+            //title 메뉴 버튼 값 선택시
+            $(".titlebtn").click(function(){
+            	$("#preBtn").show();
+            	//title 변수에 #title의 value값을 저장해줌
+            	let title = $(this).val();
+            	console.log(title);
+            	$("#title").hide();
+            	//title 버튼 선택에 따라 그에 맞는 content 메뉴를 보여줌
+            	if(title == "판매금지 품목이에요"){
+            		$("#content1").show();
+            	}else if(title == "중고거래 게시글이 아니에요"){
+            		$("#content2").show();
+            	}else if(title == "전문 판매업자 같아요"){
+            		$("#content3").show();
+            	}else if(title == "기타 사유 선택"){
+            		$("#content4").show();
+            	}
+            	$(".btnContent").click(function(){
+            		$("#submitBtn").show();
+            		let content = $(this).val();
+                 	console.log(content);
+                 	if(content == "신고 항목 제안"){
+                 		//설명 
+                 		$("#desc").show();
+                 		//전송 버튼 보여줌
+                 		$("#submitBtn").show();
+                 		 $("#content1").remove();
+                         $("#content2").remove();
+                         $("#content3").remove();
+                         $("#content4").hide();
+                         
+                       //textarea를 보여줌
+                  		if($("#reportMemo").length > 0){
+                  			$("#memoId").show();
+                  		}else{
+                  			$("#memoId").prepend(memo);
+                  		}
+                 	} else {
+                 		 $("#content1").remove();
+                         $("#content2").remove();
+                         $("#content3").remove();
+                 		$("#reportTitle").val(title);
+	                  	$("#reportContent").val(content);
+                 		$("#memberByMemberItemReportForm").submit();
+                 	}
+                 	// 전송버튼 클릭 이벤트
+               		$("#submitBtn").click(function(){
+               			let memoVal = $("#reportMemo").val();
+             			console.log(memoVal)
+             			//title , content, memo 값을 컨트롤러로 전송
+             			$("#reportMemo").val(memoVal);
+             			$("#reportTitle").val(title);
+	                  	$("#reportContent").val(content);
+             			$("#memberByMemberItemReportForm").submit();
+               		});
+            	});
+            	
+	           	//이전 버튼 클릭시
+	          	$("#preBtn").click(function(){
+	          		  $("#title").show();
+	                  $("#content1").hide();
+	                  $("#content2").hide();
+	                  $("#content3").hide();
+	                  $("#content4").hide();
+	                  $("#preBtn").hide();
+	                  $("#desc").hide();
+	                  $("#submitBtn").hide();
+	                  $("#memoId").empty();
+	                  
+	          	});
+            });
+           // 멤버 -> 멤버 신고
+           //title 값을 저장할 변수
+    		let memberTitle = "";
+    		//(check)content 값을 저장할 변수
+    		let memberContent = [];
+    		//기타 내용이 들어갈 변수
+    		let memberTextContent = "";
+    		// 거래 문제 텍스트값들이 합쳐질 변수
+    		let memberTradeContent = "";
+    		// textarea를 불러올 변수
+    		let memberMemo = '<textarea rows="10" cols="70" name="reportContent" placeholder="신고 항목 내용을 입력해주세요.." id="memReportContent"></textarea>';
+    		//피해 금액 input
+    		let tradeMemoTitle ='<div><input type="text" placeholder="피해 금액" id="memTradeContentTitle"></div>';
+    		//피해 물품 input
+    		let tradeMemoContent ='<div><input type="text" placeholder="피해 물품" id="memTradeContentTitle2"></div>' ;
+    		//신고 내용 textarea
+    		let tradeMemo = '<textarea rows="10" cols="70" name="reportContent" placeholder="신고 내용을 입력하세요" id="memTradeContent"></textarea>';
+    		//금액 유효성 검사에 사용할 숫자값 변수
+    		let regexp = /^[0-9]*$/
+    		
+    		$("#merberTitle").show();
+            $("#memberNoManner").hide();
+            $("#menuOneDesc").hide();
+            $("#menuTwoDesc").hide();
+            $("#menuThreeDesc").hide();
+            $("#menuFourDesc").hide();
+            $("#memSubmitBtn").hide();
+            $("#memPreBtn").hide();
+            $(".memberTitlebtn").click(function(){
+            	$("#merberTitle").hide();
+            	//title 변수에 #title의 value값을 저장해줌
+            	let memberTitle = $(this).val();
+            	console.log(memberTitle);
+            	 $("#memPreBtn").show();
+            	 //이전 버튼
+            	 $("#memPreBtn").click(function(){
+            		//첫번째 메뉴로 돌아감
+             	 	$("#merberTitle").show();
+            		//메뉴에 맞는 text
+                    $("#memReportContent").remove();
+                    $("#memTradeContentTitle").remove();
+                    $("#memTradeContentTitle2").remove();
+                    $("#memTradeContent").remove();
+                    $("#memPreBtn").hide();
+                    $("#menuOneDesc").hide();
+                    $("#menuTwoDesc").hide();
+                    $("#menuThreeDesc").hide();
+                    $("#menuFourDesc").hide();
+                    $("#memberNoManner").hide();
+                    $("#memSubmitBtn").hide();
+                   // $("input[type=checkbox]").prop("checked", false);
+             	});
+            	//전문 판매업자 버튼 클릭시
+            	if(memberTitle == "전문 판매업자 같아요"){
+            		
+            		$("#memTradeContentTitle").remove();
+            		$("#memTradeContentTitle2").remove();
+            		$("#memTradeContent").remove();
+            		//체크박스 보여줌
+            		$("#memberNoManner").show();
+            		$("#memSubmitBtn").show();
+            		//체크박스 클릭 후 전송 버튼 클릭 시
+            		$("#memSubmitBtn").click(function(){
+            			//체크박스 유효성 검사
+            			console.log();
+            			
+                		//체크박스 5개 이상 클릭시
+            			if($('input:checkbox[name="reportContent"]:checked').length > 5){
+                			alert("최대 5개까지 선택할 수 있습니다."); 
+                			$("#reportContent").focus();
+                		}
+            			//체크박스 체크한 값을 배열에 저장 후 보내줌
+	            		$("input[name=reportContent]:checked").each(function() {
+	            			
+	            			memberContent.push($(this).val());
+	            			console.log(memberContent);
+	            			
+	            			$("#memberHiddenTitle").val(memberTitle);
+	            			$("#memberByMemberReportForm").submit();
+	            		});
+            		});
+				//비매너 사용자 버튼 클릭시
+            	}else if(memberTitle == "비매너 사용자예요"){
+            		$("#memTradeContentTitle").remove();
+            		$("#memTradeContentTitle2").remove();
+            		$("#memTradeContent").remove();
+            		$("#menuOneDesc").show();
+            		$("#memberContent").prepend(memberMemo);
+            		$("#memSubmitBtn").show();
+            		$("#memSubmitBtn").click(function(){
+              			//textarea의 value값을 변수에 저장
+              			memberTextContent = $("#memReportContent").val();
+              			console.log(memberTextContent)
+              			//title , content값을 컨트롤러로 전송
+              			$("#reportContent").val(memberTextContent);
+              			console.log($("#reportContent").val())
+              			$("#memberHiddenTitle").val(memberTitle);
+              			$("#memberByMemberReportForm").submit();
+              		});
+            		//욕설 버튼 클릭시
+            	}else if(memberTitle == "욕설을 해요"){
+            		$("#memTradeContentTitle").remove();
+            		$("#memTradeContentTitle2").remove();
+            		$("#memTradeContent").remove();
+            		$("#menuTwoDesc").show();
+            		$("#memberContent").prepend(memberMemo);
+            		$("#memSubmitBtn").show();
+            		$("#memSubmitBtn").click(function(){
+              			//textarea의 value값을 변수에 저장
+              			let memberTextContent = $("#memReportContent").val();
+              			console.log(memberTextContent)
+              			//title , content값을 컨트롤러로 전송
+              			$("#reportContent").val(memberTextContent);
+              			$("#memberHiddenTitle").val(memberTitle);
+              			$("#memberByMemberReportForm").submit();
+              		});
+            	}else if(memberTitle == "거래/환불 분쟁 신고"){
+            		$("#menuThreeDesc").show();
+            		//피해 금액 input
+            		$("#tradeContent").prepend(tradeMemo);
+            		//피해 물품 input
+            		$("#tradeContent").prepend(tradeMemoTitle);
+            		//피해 내용 textarea
+            		$("#tradeContent").prepend(tradeMemoContent);
+            		
+            		$("#memSubmitBtn").show();
+            		//이전 버튼
+                	$("#memPreBtn").hide();
+            		//전송 버튼 클릭 이벤트
+            		$("#memSubmitBtn").click(function(){
+            			//피해 금액 입력값이 없을시
+            			if($("#memTradeContentTitle").val() == ""){
+            				alert("피해 금액을 입력해주세요");
+            				$("#memTradeContentTitle").focus();
+            				return;
+            			//피해 금액에 숫자말고 다른 값 입력시
+            			}else if(!regexp.test($("#memTradeContentTitle").val())){
+            				alert("숫자만 입력해주세요");
+            				$("#memTradeContentTitle").val('');
+            				$("#memTradeContentTitle").focus();
+            				return;	
+            			}
+            			//피해 물품 입력값이 없을 시
+            			if($("#memTradeContentTitle2").val() == ""){
+            				alert("피해 물품을 입력해주세요");
+            				$("#memTradeContentTitle2").focus();
+            				return;
+            			}
+            			//신고 내용 입력값이 없을 시 
+            			if($("#memTradeContent").val() == ""){
+            				alert("신고 내용을 입력해주세요");
+            				$("#memTradeContent").focus();
+            				return;
+            			//신고 내용을 5자 이내로 작성시
+            			}else if($("#memTradeContent").val().length < 5){
+            				alert("신고 내용을 자세히 입력해주세요.");
+            				$("#memTradeContent").focus();
+            				return;
+            			}
+              			//피해 금액 , 피해 물품 , 피해 내용 값을 다 합친 후 reportContent 에 넣어줌 
+              			let memberTradeContent = "피해 금액 : " + $("#memTradeContentTitle").val()+ "원, " + "피해 물품 : " + $("#memTradeContentTitle2").val()+ " , " + "신고 내용 : " + $("#memTradeContent").val() ;
+              			//디버깅
+              			console.log(memberTradeContent)
+              			//합친 value값을 memTradeContent에넣어줌
+              			$("#memTradeContent").val(memberTradeContent);
+              			//제목 값
+              			$("#memberHiddenTitle").val(memberTitle);
+              			$("#memberByMemberReportForm").submit();
+              		});
+            	}else if(memberTitle == "다른 문제가 있어요"){
+            		$("#menuFourDesc").show();
+            		//다른 문제 사유 textarea 메뉴에 맞게 생성
+            		$("#memberContent").prepend(memberMemo);
+            		$("#memSubmitBtn").show();
+            		//전송 버튼 이벤트
+            		$("#memSubmitBtn").click(function(){
+              			//textarea의 value값을 변수에 저장
+              			let memberTextContent = $("#memReportContent").val();
+              			//디버깅
+              			console.log(memberTextContent)
+              			//title , content값을 컨트롤러로 전송
+              			$("#reportContent").val(memberTextContent);
+              			$("#memberHiddenTitle").val(memberTitle);
+              			$("#memberByMemberReportForm").submit();
+              		});
+            	}
+            });
+            
+        });
+
+    </script>
+<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+			$().UItoTop({ easingType: 'easeOutQuart' });
+								
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+<script src="js/minicart.min.js"></script>
+<script>
+	// Mini Cart
+	paypal.minicart.render({
+		action: '#'
+	});
+
+	if (~window.location.search.indexOf('reset=true')) {
+		paypal.minicart.reset();
+	}
+</script>
+<!-- main slider-banner -->
+<script src="js/skdslider.min.js"></script>
+<link href="css/skdslider.css" rel="stylesheet">
+<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
+						
+			jQuery('#responsive').change(function(){
+			  $('#responsive_wrapper').width(jQuery(this).val());
+			});
+			
+		});
+</script>
+<!-- //main slider-banner -->  
+</body>
+</html>

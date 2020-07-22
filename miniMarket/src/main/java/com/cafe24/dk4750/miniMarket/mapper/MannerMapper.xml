@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.MannerMapper">
+
+	<!-- 1번 매너평가 받은 갯수 알아오기 -->
+	<select id="selectMannerContentCount1" parameterType="String" resultType="int">
+		SELECT COUNT(manner_content1) AS mannerContent1
+		FROM mini_market_manner
+		WHERE member_unique_no = #{memberUniqueNo}
+	</select>
+	
+	<!-- 2번 매너평가 받은 갯수 알아오기 -->
+	<select id="selectMannerContentCount2" parameterType="String" resultType="int">
+		SELECT COUNT(manner_content2) AS mannerContent2
+		FROM mini_market_manner
+		WHERE member_unique_no = #{memberUniqueNo}
+	</select>
+	
+	<!-- 3번 매너평가 받은 갯수 알아오기 -->
+	<select id="selectMannerContentCount3" parameterType="String" resultType="int">
+		SELECT COUNT(manner_content3) AS mannerContent3
+		FROM mini_market_manner
+		WHERE member_unique_no = #{memberUniqueNo}
+	</select>
+	
+	<!-- 4번 매너평가 받은 갯수 알아오기 -->
+	<select id="selectMannerContentCount4" parameterType="String" resultType="int">
+		SELECT COUNT(manner_content4) AS mannerContent4
+		FROM mini_market_manner
+		WHERE member_unique_no = #{memberUniqueNo}
+	</select>
+	
+	<!-- 5번 매너평가 받은 갯수 알아오기 -->
+	<select id="selectMannerContentCount5" parameterType="String" resultType="int">
+		SELECT COUNT(manner_content5) AS mannerContent5
+		FROM mini_market_manner
+		WHERE member_unique_no = #{memberUniqueNo}
+	</select>
+	
+	<!-- 6번 매너평가 받은 갯수 알아오기 -->
+	<select id="selectMannerContentCount6" parameterType="String" resultType="int">
+		SELECT COUNT(manner_content6) AS mannerContent6
+		FROM mini_market_manner
+		WHERE member_unique_no = #{memberUniqueNo}
+	</select>
+
+	<!-- 해당 아이템에 매너평가를 한 적이 있는지 체크 -->
+	<select id="mannerCheck" parameterType="com.cafe24.dk4750.miniMarket.vo.Manner" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM mini_market_manner
+		WHERE member_id = #{memberId}
+		AND member_unique_no = #{memberUniqueNo}
+		AND member_item_no = #{memberItemNo}
+	</select>
+
+	<!-- 매너평가 추가 -->
+	<insert id="insertGoodManner" parameterType="com.cafe24.dk4750.miniMarket.vo.Manner">
+		INSERT INTO mini_market_manner(
+			good_manner,
+			manner_date,
+			manner_content1,
+			manner_content2,
+			manner_content3,
+			manner_content4,
+			manner_content5,
+			manner_content6,
+			member_id,
+			member_unique_no,
+			member_item_no
+		) VALUES (
+			#{goodManner},
+			NOW(),
+			#{mannerContent1},
+			#{mannerContent2},
+			#{mannerContent3},
+			#{mannerContent4},
+			#{mannerContent5},
+			#{mannerContent6},
+			#{memberId},
+			#{memberUniqueNo},
+			#{memberItemNo}
+		)
+	</insert>
+	
+	<!-- 비매너평가 추가 -->
+	<insert id="insertBadManner" parameterType="com.cafe24.dk4750.miniMarket.vo.Manner">
+		INSERT INTO mini_market_manner(
+			bad_manner,
+			manner_date,
+			manner_content1,
+			member_id,
+			member_unique_no,
+			member_item_no
+		) VALUES (
+			#{badManner},
+			NOW(),
+			#{mannerContent1},
+			#{memberId},
+			#{memberUniqueNo},
+			#{memberItemNo}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.MemberItemLikeMapper">
+	
+	<!-- 내가 이 상품을 좋아요 했는지 확인하기 -->
+	<select id="CheckLike" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItemLike" resultType="Integer">
+		SELECT like_active AS likeActive
+		FROM mini_market_member_item_like
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND member_item_no = #{memberItemNo}
+	</select>
+	
+	<!-- 내 like active 가져오기 -->
+	<select id="CheckLike2" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItemLike" resultType="Integer">
+		SELECT like_active AS likeActive
+		FROM mini_market_member_item_like
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND member_item_no = #{memberItemNo}
+	</select>
+	
+	<!-- 상품을 좋아요 했다면 좋아요 취소로 변경 -->
+	<update id="updateLikeChange" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItemLike">
+		UPDATE mini_market_member_item_like
+		SET like_active = #{likeActive}
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND member_item_no = #{memberItemNo}
+	</update>
+	
+	<!-- 내가 처음으로 관심상품 등록할때 -->
+	<insert id="insertLikeItem" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItemLike">
+		INSERT INTO mini_market_member_item_like
+			(
+				like_active,
+				member_unique_no,
+				member_item_no,
+				like_date
+			) VALUES (
+				#{likeActive},
+				#{memberUniqueNo},
+				#{memberItemNo},
+				NOW()
+			)
+	</insert>
+	
+	<!-- 내가 관심상품 삭제 -->
+	<delete id="deleteLikeItem" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItemLike">
+		DELETE FROM mini_market_member_item_like
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND member_item_no = #{memberItemNo}
+	</delete>
+</mapper>

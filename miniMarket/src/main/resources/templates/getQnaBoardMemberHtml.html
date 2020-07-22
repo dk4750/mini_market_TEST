@@ -1,0 +1,721 @@
+<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Super Market an Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Faq :: w3layouts</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Super Market Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+		let one = $("#itemOne");
+		let two = $("#itemTwo");
+		let three = $("#itemThree");
+		let four = $("#itemFour");
+		one.hide();
+		two.hide();
+		three.hide();
+		four.hide();
+		
+		$("#qnaMember").click(function(){
+			one.show();
+			two.hide();
+			three.hide();
+			four.hide();
+			five.hide();
+		});
+		$("#qnaTrade").click(function(){
+			one.hide();
+			two.show();
+			three.hide();
+			four.hide();
+			five.hide();
+		});
+		$("#qnaTradeItemByManner").click(function(){
+			one.hide();
+			two.hide();
+			three.show();
+			four.hide();
+			five.hide();
+		});
+		$("#qnaReport").click(function(){
+			one.hide();
+			two.hide();
+			three.hide();
+			four.show();
+			five.hide();
+		});
+		
+	});
+</script>
+<style>
+	#p{
+		border:3px solid;
+		font-weight: 800;
+	}
+</style>
+<!-- start-smoth-scrolling -->
+</head>
+	
+<body>
+<!-- header -->
+	<div class="agileits_header">
+		<div class="container">
+			<div class="w3l_offers">
+			<p><a th:href="@{/about}">About us</a></p>
+			</div>
+			<div class="agile-login">
+				<ul>
+					<li th:if="${session.loginMember != null }">
+						<a th:href="@{/logoutMember}">로그아웃</a>
+					</li>
+					<li th:if="${session.loginCompany != null }">
+						<a th:href="@{/logoutCompany}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginAdmin != null }">
+						<a th:href="@{/logoutAdmin}">로그아웃</a>					
+					</li>
+					<li th:if="${session.loginMember != null}">
+						<a th:href="@{/memberMyPage}">마이페이지(회원)</a>
+					</li>
+					<li th:if="${session.loginCompany != null}">
+						<a th:href="@{/companyMyPage}">마이페이지(업체)</a>
+					</li>					
+					<li	th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/loginMemberAndCompany}">로그인</a>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{/addMemberAndCompany}">회원가입</a>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">QnA<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getQnaBoardMemberHtml}">멤버 자주 묻는 질문</a></li>
+											<li><a th:href="@{/getQnaBoardCompany}">업체 자주 묻는 질문</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">공지사항<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:href="@{/getNoticeList}">공지사항</a></li>
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addNotice}">공지사항작성</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul>
+					</li>
+					<li th:if="${session.loginMember == null && session.loginCompany ==null && session.loginAdmin==null}">
+						<a th:href="@{loginAdmin}">관리자</a>
+					</li>
+				</ul>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember != null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a th:href="@{/getMyLikeItem}">
+					<button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="product_list_header" th:if="${session.loginMember == null}">  
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="display" value="1">
+				<a>
+					<button class="w3view-cart" type="button" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+				</a>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+
+	<div class="logo_products">
+		<div class="container">
+		<div class="w3ls_logo_products_left1">
+			</div>
+		<div class="w3ls_logo_products_left">			
+			</div>
+			<div class="w3ls_logo_products_left">
+				<h1><a th:href="@{/index}">Mini Market</a></h1>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //header -->
+<!-- navigation -->
+	<div class="navigation-agileits">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header nav_2">
+					<button type="button"
+						class="navbar-toggle collapsed navbar-toggle1"
+						data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+					<ul class="nav navbar-nav">
+						<li class="active"><a th:href="@{/index}" class="act">Home</a></li>
+						<!-- Mega Menu -->
+							<li class="dropdown"  th:if="${session.loginMember} != null"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<li class="dropdown"  th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">중고 물품 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>중고 물품 메뉴</h6>
+											<li><a th:href="@{/getMemberItemList}">내동네 중고물품 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginCompany != null || session.loginMember != null}"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+							<!-- 업체 메뉴 -->
+							<li class="dropdown" th:if="${session.loginMember==null && session.loginCompany==null && session.loginAdmin==null}"><a href="#" class="dropdown-toggle none">업체 홍보 메뉴<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>업체 홍보 메뉴</h6>
+											<li><a th:if="${session.loginCompany} !=null" th:href="@{/addCompanyItem}">업체 홍보하기</a></li>
+											<li><a th:if="${session.loginMember} != null" th:href="@{/getCompanyItemList}">내동네 업체홍보 목록</a></li>
+										</ul>
+									</div>
+								</div>
+							</ul></li>
+						<li th:if="${session.loginAdmin == null && session.loginCompany == null && session.loginMember!=null}"><!-- 채팅방 버튼 -->
+							<a th:href="@{/chatroomList}" onclick="window.open(this.href,'_blank','width=600,height=850,left=400px,top=200px, scrollbars=yes');return false;">채팅방</a>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">회원 관리<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getAdminMemberList}">회원</a></li>
+											<li><a th:href="@{getAdminCompanyList}">업체</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">신고 리스트<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<h6>회원 / 업체</h6>
+											<li><a th:href="@{getReportMemberByMemberList}">회원 -> 회원</a></li>
+											<li><a th:href="@{getReportMemberByMemberItemList}">회원 -> 회원 아이템</a></li>
+											<li><a th:href="@{getReportMemberByCompanyList}">회원 -> 업체</a></li>
+											<li><a th:href="@{getReportMemberByCompanyItemList}">회원 -> 업체 아이템</a></li>
+											<li><a th:href="@{getReportCompanyByMemberList}">업체 -> 회원 댓글</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+						<li class="dropdown" th:if="${session.loginAdmin != null}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">카테고리 생성<b class="caret"></b></a>
+							<ul class="dropdown-menu multi-column columns-3">
+								<div class="row">
+									<div class="multi-gd-img">
+										<ul class="multi-column-dropdown">
+											<li><a th:if="${session.loginAdmin} !=null" th:href="@{/addCategory}">카테고리 생성</a></li>
+										</ul>
+									</div>	
+								</div>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+		
+<!-- //navigation -->
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">FAQ</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<!-- help-page -->
+	<!--brands-->
+   <div class="brands">
+      <div class="container">
+      <h3>Brand Store</h3>
+         <div class="brands-agile">
+            <div class="col-md-2 w3layouts-brand">
+               <div class="brands-w3l">
+                  <p><a href="#" id="qnaMember">계정/인증</a></p>
+               </div>
+            </div>
+            <div class="col-md-2 w3layouts-brand">
+               <div class="brands-w3l">
+                  <p><a href="#" id="qnaTrade">구매/판매</a></p>
+               </div>
+            </div>
+            <div class="col-md-2 w3layouts-brand">
+               <div class="brands-w3l">
+                  <p><a href="#" id="qnaTradeItemByManner">거래 품목/ 거래 매너</a></p>
+               </div>
+            </div>
+            
+            <div class="col-md-2 w3layouts-brand">
+               <div class="brands-w3l">
+                  <p><a href="#" id="qnaReport">이용 제재</a></p>
+               </div>
+            </div>
+            <div class="clearfix"></div>
+         </div>
+      </div>
+   </div>   
+<!--//brands-->
+	<div class="faq-w3agile" id="myQna">
+		<div class="container"> 
+			<h2 class="w3_agile_header">자주 묻는 질문 ?</h2> 
+			<!-- 계정/인증 -->
+			<ul class="faq" id="itemOne">
+				<li class="item1"><a href="#" title="click here">탈퇴는 어떻게 하나요?</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+								오른쪽 상단 '마이페이지' 클릭 > 탈퇴하기] 에서 비밀번호 재입력 후 탈퇴할 수 있어요.
+								<br><br>
+								탈퇴하면 모든 게시글과 채팅 내용이 삭제되고 복구할 수 없으니 신중하게 탈퇴해 주세요.
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item2"><a href="#" title="click here">프로필 사진과 닉네임을 변경하고 싶어요</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+								[마이페이지 > 프로필 사진 변경] 을 클릭해 보세요. [프로필 설정] 페이지로 이동해요.
+								<br>
+								[프로필 설정] 페이지에서 사진과 닉네임을 자유롭게 변경할 수 있어요. :)
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item3"><a href="#" title="click here">회원 정보 변경은 어디서 하나요?</a>
+					<ul>
+						<li class="subitem1">
+						<p id="p">
+							[마이페이지 >  개인정보 수정] 을 클릭해 보세요. [개인정보 수정]페이지로 이동해요
+							<br>
+							[개인정보 수정] 페이지에서 이름 , 핸드폰 번호, 동네를 자유롭게 변경할 수 있어요. :)
+						</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item5"><a href="#" title="click here">동네인증을 왜 해야 하나요?</a>
+					<ul>
+						<li class="subitem1">
+						<p id="p">
+							미니마켓 서비스를 이용하려면 동네 이웃임을 확인하기 위해 동네인증을 꼭 해주셔야 해요. 아래 경로로 동네인증 할 수 있어요.
+							<br>
+							동네 인증을 해야 내 동네에 맞는 상품을 보고 구매할 수 있어요 !
+						</p>
+						</li>										
+					</ul>
+				</li>
+			</ul>
+			<!-- 구매/판매 -->
+			<ul class="faq" id="itemTwo">
+				<li class="item1"><a href="#" title="click here">중고거래 게시판 거래 및 환불 정책</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							미니마켓의 모든 거래는 기본적으로 거래 당사자들끼리 자유롭게 진행할 수 있어요. 가급적 미니마켓은 거래에 개입하지 않아요.<br>
+							그래서 거래 중에 이견이 있어도 거래 당사자들끼리 직접 대화하여 해결하는 것을 권장해요.<br>
+							하지만 대화로 해결하기 어렵다면 저희에게 신고나 질문을 해주세요!<br>
+							거래 중에 분쟁이 발생하더라도 당근마켓의 기본매너를 지키는 건 잊지 말아 주세요. 채팅창 너머 나와 똑같은 사람이 있다는 것을 기억해 주세요. :)
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item2"><a href="#" title="click here">사진을 첨부하여 판매글을 작성하고 싶어요. 어떻게 하나요? (판매글 작성하는 방법)</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							판매글 작성하는 방법<br>
+							[중고물품 목록 페이지에서 '중고아이템 판매' 버튼 클릭] 에서 판매글을 자유롭게 작성해 주시면 돼요.<br><br>
+							
+							사진 첨부하는 방법<br>
+							[중고아이템 판매] 에서 파일 선택 버튼을 눌러 보세요. 사진을 첨부할 수 있어요.<br>
+							최대 5장까지 올릴 수 있습니다.
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item4"><a href="#" title="click here">거래 후기는 어떻게 쓰나요?</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							상품 거래가 완료되면 [마이페이지] 이동 후 [내가 구매한 아이템 목록] 클릭 후 <br>
+							매너 평가 버튼 클릭 시 매너평가 창 생성 -> 리뷰 작성
+							</p>
+						</li>										
+					</ul>
+				</li> 
+				<li class="item5"><a href="#" title="click here">게시글은 어떻게 삭제하나요? (게시글 삭제하기)</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							[마이페이지 > 내가 판매중인 상품 > 삭제하고 싶은 게시글 > 삭제하기 > 삭제]
+
+							다만 삭제된 게시글은 복구할 수 없으니 신중히 삭제해 주시길 바랍니다.
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item6"><a href="#" title="click here">관심 있는 물건만 따로 모아보고 싶어요!</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							 상단바에 카트모양 아이콘 클릭시 내가 좋아요한 상품 리스트를 볼 수 있어요^-^
+							</p>
+						</li>										
+					</ul>
+				</li>
+			</ul> 
+			<!-- 거래 매너 / 품목 -->
+			<ul class="faq" id="itemThree">
+				<li class="item1"><a href="#" title="click here">판매금지 물품 </a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+								가품 ∙ 이미테이션 (상표권, 저작권 침해 물품, 특정 브랜드의 스타일을 모방한 물품)<br><br>
+								주류, 담배, 전자담배, 모의총포 및 그 부속품 일체 (ex. 라이터, 비비탄 총알 등 청소년 유해물건)<br><br>
+								경유, LPG, 휘발유 등의 유류 거래<br><br>
+								반려동물 (무료분양, 열대어 포함)<br><br>
+								한약∙ 의약품 ∙ 의료기기 ∙ 마약류 (청소년 유해약물∙유해화학물질)<br><br>
+								반영구화장 등 면허나 자격 없는 자의 불법 유사 의료 행위 홍보/모집글<br><br>
+								수제 음식물 ∙ 건강기능식품 : 직접 만들거나 가공한 음식, 건강기능식품(지자체 및 영업 신고를 한 사람만 판매할 수 있음)<br><br>
+								유통기한이 지난 제품<br><br>
+								도수 있는 안경 ∙ 도수 있는 선글라스 (온라인 판매 불법)<br><br>
+								콘택트 렌즈, 써클 렌즈 (온라인 판매 불법)<br><br>
+								반복/다량 판매하는 핸드메이드 제품<br><br>
+								화장품 샘플 (온라인 판매 불법)<br><br>
+								음란물 (청소년 유해매체물)<br><br>
+								촬영 여부를 상대방이 알기 어려운 카메라 혹은 그밖에 유사한 기능을 갖춘 기계장치(몰카 등)<br><br>
+								성생활용품<br><br>
+								개인정보 (게임 계정 포함)<br><br>
+								조건부 무료나눔<br><br>
+								헌혈증<br><br>
+								렌탈 제품<br><br>
+								초대권 (무료나눔만 가능)<br><br>
+								군용품 ∙ 도검 ∙ 화약류 ∙ 분사기 ∙ 전자충격기 ∙ 석궁 (안전인증표시 없는 전기용품 또는 공산품)<br><br>
+								USD 1000달러 이상의 외환 거래나 매매차익을 목적으로 하는 반복적인 외환 거래 (매매차익을 목적으로 하지 않는 1000달러 미만의 외환거래는 허용) <br><br>
+								나라미, 정부 지원 생필품, 지역상품권 등 법률에 의해 재판매 할 수 없는 물품<br><br>
+								종량제봉투<br><br>
+								이윤추구를 목적으로 적합성평가(적합인증)를 받지 않고 해외에서 구매한 전자기기를 국내에서 판매하는 행위<br><br>
+								이외 법률을 위반하는 모든 물품<br><br>
+								*판매금지 물품은 무료나눔, 삽니다 게시글 또한 허용되지 않습니다.<br><br>
+								<br><br>
+								*당근마켓은 현행법령상 판매가 허용되지 않는 불법상품 및 유해 상품을 판매하는 것은 제한하고 있어요. 판매 자격을 갖췄더라도 개인 간 거래를 지향하는 당근마켓에서는 해당 물품을 판매할 수 없어요.
+								<br><br>					
+								*현행법을 위반할 경우 처벌 받을 수 있습니다. 이점 유의해 주시길 바랍니다.
+								<br><br><br>
+								다함께 공정하고 따뜻한 거래 문화를 만들어요. :)
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item2"><a href="#" title="click here">반려동물을 무료로 분양할 수 있나요? </a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							무료 분양이더라도 생명이 있는 동물을 거래하는 행위는 금지하고 있어요. <br><br>
+
+							아직 미니마켓이 동물의 평생 가족을 찾아 주는 서비스로는 부족한 점이 많기 때문이에요.<br><br>
+							
+							생명이 있는 동물은 거래하지 말아 주세요. :)<br>
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item3"><a href="#" title="click here">어떤 경우에 이용정지 되나요?</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							아래와 같은 행위를 하면 미니마켓 운영원칙에 따라 이용정지 당할 수 있어요.<br><br>
+							거래 불이행 (입금 지연, 거래 물품 미발송, 환불 지연 등)<br><br>
+							비매너 (거래 약속 파기, 거래 매너 위반, 비매너 평가 및 경고 누적 등)<br><br>
+							성희롱<br><br>
+							부적합한 서비스 (서비스 목적에 위반하는 서비스 사용)<br><br>
+							채팅 남용 <br><br>
+							욕설 및 명예훼손<br><br>
+							스팸 및 어뷰징 활동<br><br>
+							홍보/광고<br><br>
+							기타 (미니마켓 운영정책에 위배되는 행위를 한 경우)<br><br>
+							만약 거래 상대방이 이용정지 된 사용자라는 안내 문구가 떴다면 그 이유를 찾아 보세요.<br><br>
+							이용정지된 이유에 따라 거래를 즉시 중단해야 하는 경우일 수 있어요.<br><br>
+							만약 거래 상대방이 안내 문구가 오류에 의한 것이라거나 잘못 처리됐다는 등의 이야기를 한다면 주의하세요!<br><br>
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item4"><a href="#" title="click here">가품, 전문판매업자 글이 있는데 보기 싫어요. 어떻게 해야 하나요? </a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+							가품은 판매금지 물품에 해당하며 미니마켓은 전문판매업자의 상업적인 판매를 허용하지 않고 있어요.<br><br>
+	
+							이와 같은 글을 봤다면 [게시글 상세보기 하단에 (게시글 , 회원)신고하기] 로 신고해 주시길 바랍니다. :)<br><br>
+								
+							미니마켓 취지에 맞는 글이 더 많이 보일 수 있도록 최선을 다할게요. 함께 따뜻한 거래 문화를 만들어 가요.
+							</p>
+						</li>										
+					</ul>
+				</li> 
+				<li class="item6"><a href="#" title="click here">비매너 평가를 하면 상대방이 알 수 있나요? </a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+								누가 나에게 비매너 평가 했는지 알 수 없어요. 매너 평가는 익명으로 처리돼요. (칭찬 매너 평가도 익명으로 처리됩니다.)<br><br>
+								비매너 평가는 같은 항목을 2개 이상 받은 경우에만 항목 내용이 본인에게 노출돼요.<br><br>							
+								이렇게 하는 이유는 누가 남긴 비매너 평가인지 알 수 없게 하기 위함이에요.<br><br>	
+								항목 선택이 아닌 직접 쓴 내용은 보여지지 않아요. 미니마켓 팀만 볼 수 있어요.<br><br>
+								비매너 사용자를 만났다면 그냥 지나치지 말고 꼭 매너 평가를 남겨 주세요.<br><br>
+								함께 따뜻한 당근마켓을 만들어 가요. :)
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item7"><a href="#" title="click here">매너온도란?</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+								매너 평가는 사용자의 매너를 평가할 수 있는 기능이에요. [마이페이지 -> 내가 구매한 아이템 목록] 에서 매너 평가를 남길 수 있어요.<br><br>
+								매너가 좋은 사용자에게는 칭찬 매너 평가를, 매너가 좋지 않은 사용자에게는 비매너 평가를 남겨 주세요.<br>			<br>
+								칭찬 매너 평가는 프로필의 받은 매너 평가에서 확인할 수 있어요. 나뿐만 아니라 다른 사용자도 볼 수 있어요.	<br><br>
+								비매너 평가는 본인을 제외한 다른 사람에게는 공개되지 않아요. 나만 볼 수 있어요.<br><br>
+								또, 비매너 평가는 익명으로 처리됩니다. 그래서 누가 남긴 비매너 평가인지 알 수 없어요.<br><br>
+								매너 평가는 매너온도에 영향을 줘요. 칭찬 매너 평가를 받았다면 매너 온도가 오르고, 비매너 평가를 받았다면 매너온도가 내려가요.<br><br>
+								또, 일정 기간 비매너 평가를 누적해서 받으면 이용정지 되기도 해요. 그런 만큼 비매너 평가는 꼭 필요한 상황에만 남겨 주시길 바랄게요.<br><br>
+								거래 후에는 거래 후기도 남기고 매너 평가도 남겨 보세요. 여러분의 많은 참여가 따뜻한 미니마켓을 만듭니다. :)
+							</p>
+						</li>										
+					</ul>
+				</li>
+			</ul> 
+			<!-- 이용제재-->
+			<ul class="faq" id="itemFour">
+				<li class="item1"><a href="#" title="click here">거래약속 불이행 사유로 경고 및 이용정지 된 이유가 궁금해요</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+								거래약속 불이행 경고 및 이용정지는 비매너 평가에 의해 자동으로 적용되는 것입니다.<br><br>
+								일정 기간 동안 여러 번 거래약속 불이행 항목으로 비매너 평가를 받으면 자동으로 경고 및 이용제재 됩니다.<br><br>
+								거래약속 불이행 사유에는 아래 3가지가 있으니 거래 시 주의해 주시기 바랍니다. <br><br>
+								1. 약속 장소에 나타나지 않음<br><br>
+								2. 거래 시간과 장소를 정하고 연락 두절됨<br><br>
+								3. 거래 시간과 장소를 정하고 거래 직전에 취소함<br><br>
+								내 동네 이웃과 즐겁고 따듯한 거래를 이어 나가 주세요. :)
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item2"><a href="#" title="click here">'전문판매업자같아요' 신고를 받으면 어떻게 되나요?</a>
+					<ul>
+						<li class="subitem1">
+							<p id="p">
+								여러 번 '전문판매업자같아요' 신고를 받았다면 (신고를 받은) 사용자의 게시글이 노출되지 않아요.<br><br>
+								신고 수가 늘어날수록 (신고를 받은) 사용자의 게시글 노출빈도가 점점 줄어듭니다.<br>
+							</p>
+						</li>										
+					</ul>
+				</li>
+				<li class="item3"><a href="#" title="click here">어떤 경우에 이용정지 되나요?</a>
+					<ul>
+						<li class="subitem1">
+							<p  id="p">
+							아래와 같은 행위를 하면 당근마켓 운영원칙에 따라 이용정지 당할 수 있어요.<br><br>
+							거래 불이행 (입금 지연, 거래 물품 미발송, 환불 지연 등)<br><br>
+							비매너 (거래 약속 파기, 거래 매너 위반, 비매너 평가 및 경고 누적 등)<br><br>
+							성희롱<br><br>
+							부적합한 서비스 (서비스 목적에 위반하는 서비스 사용)<br><br>
+							채팅 남용 <br><br>
+							욕설 및 명예훼손<br><br>
+							스팸 및 어뷰징 활동<br><br>
+							홍보/광고<br><br>
+							기타 (당근마켓 운영정책에 위배되는 행위를 한 경우)<br><br>
+							만약 거래 상대방이 이용정지 된 사용자라는 안내 문구가 떴다면 그 이유를 찾아 보세요.<br><br>
+							이용정지된 이유에 따라 거래를 즉시 중단해야 하는 경우일 수 있어요.<br><br>
+							만약 거래 상대방이 안내 문구가 오류에 의한 것이라거나 잘못 처리됐다는 등의 이야기를 한다면 주의하세요!
+							</p>
+						</li>										
+					</ul>
+				</li>
+			</ul> 
+			<div>
+				<a th:href="@{getQnaBoardMemberList}" id="qnaMemberList">찾으시는 질문이 없나요?</a>
+			</div>
+			<!-- script for tabs -->
+			<script type="text/javascript">
+				$(function() {
+				
+					var menu_ul = $('.faq > li > ul'),
+						   menu_a  = $('.faq > li > a');
+					
+					menu_ul.hide();
+				
+					menu_a.click(function(e) {
+						e.preventDefault();
+						if(!$(this).hasClass('active')) {
+							menu_a.removeClass('active');
+							menu_ul.filter(':visible').slideUp('normal');
+							$(this).addClass('active').next().stop(true,true).slideDown('normal');
+						} else {
+							$(this).removeClass('active');
+							$(this).next().stop(true,true).slideUp('normal');
+						}
+					});
+					
+				
+				
+				});
+			</script>
+			<!-- script for tabs -->   
+		</div>
+	</div>
+<!-- //footer -->
+<div class="footer">		
+		<div class="footer-copy">
+			
+			<div class="container">
+				<p>© 2017 Super Market. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+			</div>
+		</div>
+		
+	</div>	
+	<div class="footer-botm">
+			<div class="container">
+				<div class="w3layouts-foot">
+					<ul>			
+						<li><a href="https://github.com/dk4750/mini_market" class="w3_agile_dribble"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="payment-w3ls">	
+					<img src="images/card.png" alt=" " class="img-responsive">
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+<!-- //footer -->	
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- top-header and slider -->
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+			$().UItoTop({ easingType: 'easeOutQuart' });
+								
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+<script src="js/minicart.min.js"></script>
+<script>
+	// Mini Cart
+	paypal.minicart.render({
+		action: '#'
+	});
+
+	if (~window.location.search.indexOf('reset=true')) {
+		paypal.minicart.reset();
+	}
+</script>
+<!-- main slider-banner -->
+<script src="js/skdslider.min.js"></script>
+<link href="css/skdslider.css" rel="stylesheet">
+<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
+						
+			jQuery('#responsive').change(function(){
+			  $('#responsive_wrapper').width(jQuery(this).val());
+			});
+			
+		});
+</script>
+<!-- //main slider-banner -->  
+</body>
+</html>

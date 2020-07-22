@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.CompanyItemPicMapper">
+	<!-- 업체아이템 사진 추가하기 -->
+	<insert id="insertCompanyItemPic" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyItemPic">
+		INSERT INTO mini_market_company_item_pic 
+			(
+				company_item_no,
+				company_item_pic1,
+				company_item_pic2,
+				company_item_pic3,
+				company_item_pic4,
+				company_item_pic5,
+				pic_date
+			) VALUES (
+				#{companyItemNo},
+				#{companyItemPic1},
+				#{companyItemPic2},
+				#{companyItemPic3},
+				#{companyItemPic4},
+				#{companyItemPic5},
+				NOW()
+			)
+	</insert>
+	
+	<!-- 업체 아이템 사진 수정하기.. 기존 사진 이름가져오기 폼 -->
+	<select id="selectCompanyItemPicName" parameterType="int" resultType="com.cafe24.dk4750.miniMarket.vo.CompanyItemPic">
+		SELECT
+			company_item_pic1 AS companyItemPic1,
+			company_item_pic2 AS companyItemPic2,
+			company_item_pic3 AS companyItemPic3,
+			company_item_pic4 AS companyItemPic4,
+			company_item_pic5 AS companyItemPic5
+		FROM mini_market_company_item_pic
+		WHERE company_item_no = #{companyItemNo}	
+	</select>
+	
+	<!-- 업체아이템 사진 수정하기(액션) -->
+	<update id="updateCompanyItemPic" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyItemPic">
+		UPDATE mini_market_company_item_pic
+		SET
+			company_item_pic1 = #{companyItemPic1},
+			company_item_pic2 = #{companyItemPic2},
+			company_item_pic3 = #{companyItemPic3},
+			company_item_pic4 = #{companyItemPic4},
+			company_item_pic5 = #{companyItemPic5}
+		WHERE company_item_no = #{companyItemNo}	
+	</update>
+</mapper>

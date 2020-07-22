@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.MemberItemPicMapper">
+	<!-- 멤버아이템 사진 추가하기 -->
+	<insert id="insertMemberItemPic" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItemPic">
+		INSERT INTO mini_market_member_item_pic
+			(
+				member_item_no,
+				member_item_pic1,
+				member_item_pic2,
+				member_item_pic3,
+				member_item_pic4,
+				member_item_pic5,
+				pic_date
+			) VALUES (
+				#{memberItemNo},
+				#{memberItemPic1},
+				#{memberItemPic2},
+				#{memberItemPic3},
+				#{memberItemPic4},
+				#{memberItemPic5},
+				NOW()
+			)
+	</insert>
+	
+	<!-- 멤버 아이템 사진 수정하기.. 기존 사진 이름가져오기 폼 -->
+	<select id="selectMemberItemPicName" parameterType="int" resultType="com.cafe24.dk4750.miniMarket.vo.MemberItemPic">
+		SELECT
+			member_item_pic1 AS memberItemPic1,
+			member_item_pic2 AS memberItemPic2,
+			member_item_pic3 AS memberItemPic3,
+			member_item_pic4 AS memberItemPic4,
+			member_item_pic5 AS memberItemPic5
+		FROM mini_market_member_item_pic
+		WHERE member_item_no = #{memberItemNo}
+	</select>
+	
+	<!-- 멤버아이템 사진 수정하기(액션)-->
+	<update id="updateMemberItemPic" parameterType="com.cafe24.dk4750.miniMarket.vo.MemberItemPic">
+		UPDATE mini_market_member_item_pic
+		SET 
+			member_item_pic1 = #{memberItemPic1},
+			member_item_pic2 = #{memberItemPic2},
+			member_item_pic3 = #{memberItemPic3},
+			member_item_pic4 = #{memberItemPic4},
+			member_item_pic5 = #{memberItemPic5}
+		WHERE member_item_no = #{memberItemNo}
+	</update>
+</mapper>

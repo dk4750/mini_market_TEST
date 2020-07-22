@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.dk4750.miniMarket.mapper.CompanyItemLikeMapper">
+	
+	<!-- 내가 이 업체 아이템을 좋아요 했는지 확인하기 -->
+	<select id="CheckCompanyItemLike" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyItemLike" resultType="Integer">
+		SELECT like_active AS likeActive
+		FROM mini_market_company_item_like
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND company_item_no = #{companyItemNo}
+	</select>
+	
+	<!-- 내 like active 가져오기 -->
+	<select id="CheckCompanyItemLike2" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyItemLike" resultType="Integer">
+		SELECT like_active AS likeActive 
+		FROM mini_market_company_item_like
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND company_item_no = #{companyItemNo}
+	</select>
+	
+	<!-- 업체아이템을 좋아요 했다면 좋아요 취소로 변경 -->
+	<update id="updateCompanyItemLikeChange" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyItemLike">
+		UPDATE mini_market_company_item_like
+		SET like_active = #{likeActive}
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND company_item_no = #{companyItemNo}
+	</update>
+	
+	<!-- 내가 처음으로 업체관심상품 등록할때 -->
+	<insert id="insertLikeCompanyItem" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyItemLike">
+		INSERT INTO mini_market_company_item_like 
+			(
+				like_active,
+				member_unique_no,
+				company_item_no,
+				like_date
+			) VALUES (
+				#{likeActive},
+				#{memberUniqueNo},
+				#{companyItemNo},
+				NOW()
+			)
+	</insert>
+	
+	<!-- 내 업체관심상품 삭제 -->
+	<delete id="deleteLikeCompanyItem" parameterType="com.cafe24.dk4750.miniMarket.vo.CompanyItemLike">
+		DELETE FROM mini_market_company_item_like
+		WHERE member_unique_no = #{memberUniqueNo}
+		AND company_item_no = #{companyItemNo}
+	</delete>
+	
+</mapper>
